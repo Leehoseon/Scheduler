@@ -58,7 +58,7 @@ public class UploadController {
 		System.out.println(nthumbname);*/
 		try
 			{
-			File file = new File("C:\\upload\\"+ thumbname  );
+			File file = new File("C:\\upload\\"+ thumbname );
 			System.out.println(thumbname);
 					
 			return FileUtils.readFileToByteArray(file);
@@ -167,7 +167,7 @@ public class UploadController {
 					            Scalr.Mode.FIT_TO_HEIGHT,50
 					            );
 				
-				ImageIO.write(destImg, "jpg", new FileOutputStream("C:\\upload\\" + thumbname ));
+				ImageIO.write(destImg, "jpg", new FileOutputStream("C:\\upload\\" + thumbname + extension ));
 				dto.setThumbname(thumbname);
 				
 			}if (contentType.equals("video/mp4")){
@@ -252,7 +252,7 @@ public class UploadController {
 					            Scalr.Mode.FIT_TO_HEIGHT,50
 					            );
 				
-				ImageIO.write(destImg, "jpg", new FileOutputStream("C:\\upload\\" + thumbname ));
+				ImageIO.write(destImg, "jpg", new FileOutputStream("C:\\upload\\" + thumbname + extension));
 				dto.setThumbname(thumbname);
 				
 			}if (contentType.equals("video/mp4")){

@@ -34,12 +34,13 @@
     border: 1px solid #ddd; /* Gray */
 }
 
-.active {
+/* .active {
     background-color: green;
     color: white;
-}
+} */
 
 #pagination a:hover:not(.active) {background-color: #ddd;}
+
 
 /* .vd{
 	position: relative;

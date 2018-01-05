@@ -98,6 +98,9 @@
 	height:100px;
 	width:100px;
 	display: inline-block;
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 	
 }
 #day{
@@ -153,6 +156,7 @@
 	$(document).ready(function() {
 		
 		
+		var scheduleDay ="";
 		var Now = new Date();
 
 		var NowTime = Now.getFullYear();
@@ -180,6 +184,11 @@
 		var day =["일요일","월요일","화요일","수요일","목요일","금요일","토요일",]
 		var lastDate ="";
 		
+		firstDate = new Date($("#year").val(),$("#month").val(),1).getDate();
+		lastDate = new Date($("#year").val(),$("#month").val(),0).getDate();
+		StartDay = new Date($("#year").val(),$("#month").val()-1,1).getDay();
+		beforelastDate = new Date($("#year").val(),$("#month").val()-1,0).getDate();
+		
 		/* console.log(aa);
 		console.log(year);
 		console.log(month);
@@ -195,13 +204,13 @@
 				
 				if(i==0){
 					for(k=0; k<=6; k++){
-						str += "<li id='"+ "day" +"'>"+day[j]+"</li>";
+						str += "<li class='' id='"+ "day" +"'>"+day[j]+"</li>";
 						j++;
 					}
 					j=0;
 				}
 				
-				str += "<li id='"+ i +"'>"+day[j]+"</li>"
+				str += "<li class='' id='"+ i +"'>"+day[j]+"</li>"
 				
 				j++;
 			
@@ -285,6 +294,7 @@
 			
 			drwaingTable();
 			writeDate();
+			getScheudle();
 			
 		});
 		
@@ -315,27 +325,56 @@
 			
 			console.log($("#month").val());
 			
+			
 			drwaingTable();
 			writeDate();
+			getScheudle();
 			
 		});
 		
 		$(".s").on("click","li", function (e) {
 			
 			e.preventDefault();
+			var asd = "";
+			var id = $(this).attr("id");
+			var targetDay = $(this).text();
+			var title = $("#yeartext").text();
+			var targetYear = title.substring(0,4);
+			var target = title.substring(title.lastIndexOf(".") + 1);
+			var targetMonth = target;
 			
-			if(!$(this).css("background-color", "olive")){
-				console.log("dont...")
+			if(parseInt(targetMonth) < 10){
+				
+				targetMonth = "0"+targetMonth;
+				
+			}
+			if(parseInt(targetDay) < 10){
+				
+				targetDay = "0"+targetDay;
 				
 			}
 			
-			var id = $(this).attr("id");
-			var day = $(this).text();
-			var title = $("#yeartext").text();
-			var str = "<p id='today'>"+title+"."+day+"</p>"
+			console.log(targetMonth);
+			console.log(targetDay);
 			
-			$("#modalText").before(str);
+			asd = targetDay;
 			
+			var id = parseInt(targetDay) - parseInt(StartDay);
+			console.log
+			
+			var find = $(this).attr("class");
+			var schedule = $(this).text();
+			
+			if(find === "selectDay"){
+				str = "<p id='today'>"+targetYear+"."+targetMonth+"."+id+"</p>";
+				$("#modalText").before(str); 
+				$("#modalText").val(schedule);
+				/* $("#modalText").attr("readonly","readonly"); */
+			}else{
+				var str = "<p id='today'>"+targetYear+"."+targetMonth+"."+targetDay+"</p>" 
+				
+				$("#modalText").before(str); 
+			}
 		 	// Get the modal
 			var modal = document.getElementById('myModal');
 
@@ -380,6 +419,7 @@
 			var day = $("#today").text();
 			
 			$.ajax({
+				
 				url : "/schedule/regist",
 				method : 'post',
 				data : JSON.stringify({uid:uid,content:content,sdate:day}),
@@ -394,6 +434,8 @@
 			alert("일정등록성공!");
 			var modal = document.getElementById('myModal');
 			modal.style.display = "none";
+			$(".modal-content").find("p").remove();
+			$("#modalText").val("");
 		})
 		
 		function getScheudle() {
@@ -402,11 +444,20 @@
 			
 			StartDay = new Date($("#year").val(),$("#month").val()-1,1).getDay();
 			
+			var id = StartDay + id ;
+			
 			var month = "";
 			var str = "";
 			var target = "";
 			var content = "";
-			
+			var current = $("#yeartext").text();
+			var currentYear = current.substring(0,4);
+			var start = current.indexOf(".");
+			var currentMonth = current.substring(start+1,7);
+			if(parseInt(currentMonth) < 10){
+				currentMonth = "0"+ currentMonth;
+			}
+			console.log(currentMonth);
 			$.ajax({
 				url : "/schedule/getSchedule/"+ uid + "",
 				method : 'get',
@@ -417,10 +468,21 @@
 						target = arr[i].sdate;
 						content = arr[i].content;
 						var targetYear = target.substring(0,4);
-						var targetDay = target.substring(target.lastIndexOf(".") + 1);
-						var id = targetDay - StartDay + 1;
-						console.log(targetDay);
-						$("#"+id).css("background-color", "olive");
+						var targetStart = target.indexOf(".");
+						var targetMonth = target.substring(start+1,7);
+						
+						if(currentYear===targetYear){
+							console.log("1단계");
+							if(currentMonth===targetMonth){
+								console.log("2단계");
+								var targetDay = target.substring(target.lastIndexOf(".") + 1);
+								var id = parseInt(targetDay) + parseInt(StartDay) -1 ;
+								console.log(id);
+								$("#"+id).css("background-color", "olive");
+								$("#"+id).html("<span>"+ content +"</span>");
+								$("#"+id).attr("class","selectDay");
+							}
+						}
 					}
 				}
 			});

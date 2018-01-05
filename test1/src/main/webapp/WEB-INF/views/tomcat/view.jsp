@@ -34,6 +34,21 @@
 	</ul>
 </div>
 
+
+<style>
+	.plusImg {
+	max-width: 100%;
+	max-height: 100%;
+	bottom: 0;
+	left: 0;
+	margin: auto;
+	overflow: auto;
+	position: fixed;
+	right: 0;
+	top: 0;
+	}
+</style>
+
 <script>
 	$(document).ready(function() {
 
@@ -74,10 +89,10 @@
 						str += "<li><a href='/file/download/"+arr[i].uploadname+arr[i].extension+"' download='"+arr[i].originalname+"'>" + arr[i].originalname + "</a>"
 						
 						if(arr[i].thumbname!==null){
-							str += "<img src='/file/getThumb/"+arr[i].thumbname+"'>";
+							str += "<img class='' id='' src='/file/getThumb/"+arr[i].thumbname+arr[i].extension+"'>";
 						}
 						if(arr[i].p_thumbname!==null){
-							str += "<video class='vd' src='/file/getPthumb/"+arr[i].p_thumbname+"'width='360' height='120' controls='controls' autoplay='autoplay'></li>";
+							str += "<video class='vd' src='/file/getPthumb/"+arr[i].p_thumbname+arr[i].extension+"'width='360' height='120' controls='controls' autoplay='autoplay'></li>";
 						}
 						/* str += "<button id='"+ arr[i].uploadname +"' class='button special' type='submit'>다운로드</button>" */
 						$("#uploadUl").html(str);
@@ -86,17 +101,62 @@
 
 			});
 
-			/* $.getJSON("/getThumb/{thumbName}",function(arr){
-				console.log(arr);
-				
-				for(var i =0; i <arr.length; i++){
-					
-					str += "<img src="">"+ arr[i].originalname +"</img>"
-					$("#uploadUl").html(str);
-				}
-			});  */
 		}
 		getFlist();
+		
+		$("#uploadUl").on("click","img", function () {
+			
+			var src = $(this).attr("src");
+			
+			var getClass = $(this).attr("class");
+			console.log("class="+getClass)
+			
+			if(getClass===""){
+					
+				var start = src.lastIndexOf("B");
+				var last = src.lastIndexOf("_");
+				
+				var newPlusSrc = src.substring(start,last +1) +"MAIN.jpg";
+				
+				var url = src.substring(0,start) + newPlusSrc;
+				
+				console.log(url);
+				
+				$(this).attr("src",url);
+				
+				$(this).attr("id","plus");
+				
+				$(this).attr("class","plusImg");
+					
+			};
+			
+			if(getClass==="plusImg"){
+				
+				minusImg(src);
+				
+			};
+			
+		});
+		
+		function minusImg(src) {
+			var src = $("#plus").attr("src");
+			
+			console.log(src);
+			var start = src.lastIndexOf("B");
+			var last = src.lastIndexOf("_");
+			
+			var newMinusSrc = src.substring(start,last +1) +"THUM.jpg";
+			
+			var url = src.substring(0,start) + newMinusSrc;
+			
+			$("#plus").attr("src",url);
+			
+			$("#plus").attr("class","");
+			
+			$("#plus").attr("id","");
+			
+			console.log("ok??"+url)
+		};
 	
 	});
 </script>

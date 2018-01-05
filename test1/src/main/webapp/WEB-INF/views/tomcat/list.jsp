@@ -82,6 +82,7 @@
 		});
 		
 		console.log(pageStr);
+		
 		$("#pagination").html(pageStr);
 
 		$("#regBtn").on("click", function(e) {
@@ -101,6 +102,13 @@
 			self.location="/tomcat/list?page="+pageNum;
 			
 		})
+		
+		function selectColor() {
+		
+			$("#"+page).css("background-color", "#ddd");
+			$("#"+page).css("color", "white");
+			
+		}selectColor();
 	});
 </script>
 
