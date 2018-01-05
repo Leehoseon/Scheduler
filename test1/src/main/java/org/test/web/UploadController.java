@@ -4,13 +4,15 @@ package org.test.web;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
+
 import java.io.OutputStream;
+
+
 import java.util.List;
-import java.util.UUID;
+
 
 import javax.imageio.ImageIO;
 import javax.inject.Inject;
@@ -43,7 +45,6 @@ public class UploadController {
 	@Autowired BoardService service;
 	@Inject FileService fservice;
 	
-	
 	@GetMapping("/getThumb/{thumbname:.+}")
 	
 	public byte[] getFlist(@PathVariable("thumbname")String thumbname ){
@@ -57,7 +58,7 @@ public class UploadController {
 		System.out.println(nthumbname);*/
 		try
 			{
-			File file = new File("C:\\upload\\"+ thumbname );
+			File file = new File("C:\\upload\\"+ thumbname  );
 			System.out.println(thumbname);
 					
 			return FileUtils.readFileToByteArray(file);
@@ -84,7 +85,7 @@ public class UploadController {
 		System.out.println(nthumbname);*/
 		try
 			{
-			File file = new File("C:\\upload\\"+ p_thumbname );
+			File file = new File("C:\\upload\\"+ p_thumbname +".mp4");
 			System.out.println(p_thumbname);
 					
 			return FileUtils.readFileToByteArray(file);
@@ -97,15 +98,17 @@ public class UploadController {
 		}
 		
 	}
-	
 
 	@PostMapping("/registfile")
 	public void regFile(List<MultipartFile> file) throws IOException{
+		
 		int size = file.size();
-
+		
 		for(int i = 0; i < size; i++ ) {
+			
+			int filesize = (int) file.get(i).getSize();
+			
 			FileDTO dto = new FileDTO();
-			UUID uuid = UUID.randomUUID();
 			
 			String contentType = file.get(i).getContentType().toString();
 			
@@ -113,17 +116,45 @@ public class UploadController {
 			
 			String originalname = file.get(i).getOriginalFilename();
 			
-			String uploadname = uuid.toString()+"_"+originalname;
+			int start = originalname.lastIndexOf(".");
 			
-			String thumbname = "s_"+ uploadname;
+			int last = originalname.length();
 			
-			String p_thumbname = "p_"+ uploadname;
+			String extension = originalname.substring(start, last);
+			
+			/*SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+
+	        Calendar c1 = Calendar.getInstance();
+
+	        String strToday = sdf.format(c1.getTime());*/
+			
+			int fileCount = fservice.getFileCount();
+			
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			fileCount ++;
+			
+			System.out.println(fileCount);
+			
+			String s = String.format("%02d", fileCount);
+			int t = fservice.getTno();
+
+			String uploadname = "B00000"+t+"_"+s+"_"+"MAIN";
+			
+			String thumbname = "B00000"+t+"_"+s+"_"+"THUM";
+			
+			String p_thumbname = "B00000"+t+"_"+s+"_"+"THUM";
 			
 			System.out.println(uploadname);
 			
 			System.out.println(originalname);
 			
-			OutputStream out = new FileOutputStream("C:\\upload\\"+ uploadname);
+			OutputStream out = new FileOutputStream("C:\\upload\\"+ uploadname + extension);
 			
 			FileCopyUtils.copy(file.get(i).getInputStream(), out);
 									
@@ -136,7 +167,7 @@ public class UploadController {
 					            Scalr.Mode.FIT_TO_HEIGHT,50
 					            );
 				
-				ImageIO.write(destImg, "jpg", new FileOutputStream("C:\\upload\\" + thumbname));
+				ImageIO.write(destImg, "jpg", new FileOutputStream("C:\\upload\\" + thumbname ));
 				dto.setThumbname(thumbname);
 				
 			}if (contentType.equals("video/mp4")){
@@ -144,7 +175,7 @@ public class UploadController {
 				System.out.println("it is video file..");
 
 				dto.setP_thumbname(p_thumbname);
-				OutputStream pout = new FileOutputStream("C:\\upload\\"+ p_thumbname);
+				OutputStream pout = new FileOutputStream("C:\\upload\\"+ p_thumbname + extension);
 				
 				FileCopyUtils.copy(file.get(i).getInputStream(), pout);
 				
@@ -152,7 +183,10 @@ public class UploadController {
 			
 			dto.setOriginalname(originalname);
 			dto.setUploadname(uploadname);
-
+			dto.setFilesize(filesize);
+			dto.setExtension(extension);
+			System.out.println(filesize);
+			System.out.println(extension);
 
 			fservice.putFile(dto);
 						
@@ -162,11 +196,14 @@ public class UploadController {
 	
 	@PostMapping("/addfile/{tno}")
 	public void addFile(List<MultipartFile> file,@PathVariable("tno") int tno) throws IOException{
+		
 		int size = file.size();
-		System.out.println(tno);
+		
 		for(int i = 0; i < size; i++ ) {
+			
+			int filesize = (int) file.get(i).getSize();
+			
 			FileDTO dto = new FileDTO();
-			UUID uuid = UUID.randomUUID();
 			
 			String contentType = file.get(i).getContentType().toString();
 			
@@ -174,17 +211,35 @@ public class UploadController {
 			
 			String originalname = file.get(i).getOriginalFilename();
 			
-			String uploadname = uuid.toString()+"_"+originalname;
+			int start = originalname.lastIndexOf(".");
 			
-			String thumbname = "s_"+ uploadname;
+			int last = originalname.length();
 			
-			String p_thumbname = "p_"+ uploadname;
+			String extension = originalname.substring(start, last);
 			
-			System.out.println(uploadname);
+			int fileCount = fservice.getFileCount();
 			
-			System.out.println(originalname);
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
-			OutputStream out = new FileOutputStream("C:\\upload\\"+ uploadname);
+			fileCount ++;
+			
+			System.out.println(fileCount);
+			
+			String s = String.format("%02d", fileCount);
+			int t = fservice.getTno();
+
+			String uploadname = "B00000"+t+"_"+s+"_"+"MAIN";
+			
+			String thumbname = "B00000"+t+"_"+s+"_"+"THUM";
+			
+			String p_thumbname = "B00000"+t+"_"+s+"_"+"THUM";
+			
+			OutputStream out = new FileOutputStream("C:\\upload\\"+ uploadname + extension);
 			
 			FileCopyUtils.copy(file.get(i).getInputStream(), out);
 									
@@ -197,7 +252,7 @@ public class UploadController {
 					            Scalr.Mode.FIT_TO_HEIGHT,50
 					            );
 				
-				ImageIO.write(destImg, "jpg", new FileOutputStream("C:\\upload\\" + thumbname));
+				ImageIO.write(destImg, "jpg", new FileOutputStream("C:\\upload\\" + thumbname ));
 				dto.setThumbname(thumbname);
 				
 			}if (contentType.equals("video/mp4")){
@@ -205,7 +260,7 @@ public class UploadController {
 				System.out.println("it is video file..");
 
 				dto.setP_thumbname(p_thumbname);
-				OutputStream pout = new FileOutputStream("C:\\upload\\"+ p_thumbname);
+				OutputStream pout = new FileOutputStream("C:\\upload\\"+ p_thumbname + extension);
 				
 				FileCopyUtils.copy(file.get(i).getInputStream(), pout);
 				
@@ -213,6 +268,8 @@ public class UploadController {
 			
 			dto.setOriginalname(originalname);
 			dto.setUploadname(uploadname);
+			dto.setFilesize(filesize);
+			dto.setExtension(extension);
 			dto.setTno(tno);
 
 			fservice.addFile(dto);
@@ -225,7 +282,6 @@ public class UploadController {
 	public void registerPost(BoardDTO dto){
 		
 		System.out.println(dto);
-		
 		service.register(dto);
 					
 	}
@@ -244,6 +300,14 @@ public class UploadController {
 		
 		String uploadname = dto.getUploadname();
 		
+		int start = uploadname.lastIndexOf(".");
+		
+		int last = uploadname.length();
+		
+		String newUploadName = uploadname.substring(0, start);
+		
+		/*String extension = uploadname.substring(start, last);*/
+		
 		File file = new File("C:\\upload\\"+ uploadname);
         
         if( file.exists() ){
@@ -255,7 +319,9 @@ public class UploadController {
         }else{
             System.out.println("파일이 존재하지 않습니다.");
         }
-
+        
+		dto.setUploadname(newUploadName);
+		
 		fservice.delFile(dto);
 		
 	}
@@ -270,12 +336,10 @@ public class UploadController {
 	     
 	    resp.setContentType("application/octet-stream");
 	    resp.setContentLength(fileByte.length);
-/*	    resp.setHeader("Content-Disposition", "attachment; fileName=\"" + URLEncoder.encode(originalFileName,"UTF-8")+"\";");*/
 	    resp.setHeader("Content-Transfer-Encoding", "binary");
 	    resp.getOutputStream().write(fileByte);
 	    resp.getOutputStream().flush();
 	    resp.getOutputStream().close();
-
 	}
 	
 }

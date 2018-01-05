@@ -65,16 +65,20 @@
 			$.ajax({
 				url : "/file/getflist/" + tno + "",
 				method : 'get',
-				data : tno,
 				dataType : 'json',
 				/* async: false, */
 				success : function(arr) {
 										
 					for (var i = 0; i < arr.length; i++) {
 
-						str += "<li><a href='/file/download/"+arr[i].uploadname+"' download='"+arr[i].originalname+"'>" + arr[i].originalname + "</a>"
-						str += "<img src='/file/getThumb/"+arr[i].thumbname+"'>";
-						str += "<video class='vd' src='/file/getPthumb/"+arr[i].p_thumbname+"'width='360' height='120' controls='controls' autoplay='autoplay'></li>";
+						str += "<li><a href='/file/download/"+arr[i].uploadname+arr[i].extension+"' download='"+arr[i].originalname+"'>" + arr[i].originalname + "</a>"
+						
+						if(arr[i].thumbname!==null){
+							str += "<img src='/file/getThumb/"+arr[i].thumbname+"'>";
+						}
+						if(arr[i].p_thumbname!==null){
+							str += "<video class='vd' src='/file/getPthumb/"+arr[i].p_thumbname+"'width='360' height='120' controls='controls' autoplay='autoplay'></li>";
+						}
 						/* str += "<button id='"+ arr[i].uploadname +"' class='button special' type='submit'>다운로드</button>" */
 						$("#uploadUl").html(str);
 					}

@@ -62,6 +62,13 @@ public class MainController {
 		model.addAttribute("list",service.getList(cri));
 		model.addAttribute("count",service.getCount());
 		
+		int page = cri.getPage();
+		if(page == 0) {
+			page=1;
+		}
+		
+		model.addAttribute("tno", page);
+		
 	}
 	
 	@GetMapping("/view")

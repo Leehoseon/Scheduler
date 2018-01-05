@@ -16,5 +16,9 @@ public interface FileService {
 	public void delTno(int tno);
 	
 	public void addFile(FileDTO dto);
+	
+	public int getFileCount();
+	
+	public int getTno();
 
 }

@@ -55,18 +55,6 @@
 	
 <script type="text/javascript">
 
-	function hideBtn() {
-		
-		console.log(document.session);
-		
-		/* var writer = $("#writer").val();
-		var uid = $("#uid").val();
-		console.log(uid);
-		console.log(writer);
-		if(writer !== uid){
-			$("#writeBtn").remove();
-		} */
-	}hideBtn();
 		
 </script>
 	

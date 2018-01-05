@@ -92,23 +92,24 @@ $(document).ready(function(){
 	        }
 		});
 		
-		/* $.getJSON("/file/getflist/"+tno+"",function(arr){
-			console.log(arr);
-			
-			for(var i =0; i <arr.length; i++){
-				
-				str += "<li>"+ arr[i].originalname +"</li>"
-				$("#uploadUl").html(str);
-			}
-		}); */
 	}getFlist();
 	
 	$("#uploadUl").on("click","li", function (e) {
 		
 		var con_test = confirm("선택 파일을 삭제하시겠습니까?");
 		if(con_test == true){
-					    
+			
+			var fname = $(this).text();
+			
+			var last = fname.length;
+			
+			var start = fname.lastIndexOf(".");
+			
+			var extension = fname.substring(start,last);
+			
 		    var uploadname = $(this).attr("id");
+		    
+		    var lastName = uploadname + extension ;
 		    console.log(uploadname);
 			
 			$(this).remove();
@@ -116,7 +117,7 @@ $(document).ready(function(){
 			 $.ajax({
 		    	url: "/file/delflist/",
 		        method:'Delete',
-		        data:JSON.stringify({uploadname:uploadname}),
+		        data:JSON.stringify({uploadname:lastName}),
 		        dataType: 'json',
 		        processData: false,
 				contentType: 'application/json; charset=utf-8',

@@ -1,9 +1,12 @@
 package org.test.dto;
 
+import java.sql.Date;
+
 public class FileDTO {
 	
-	private String originalname,uploadname,thumbname,p_thumbname,regdate;
-	int tno;
+	private String originalname,uploadname,thumbname,p_thumbname,extension;
+	private int tno,filesize;
+	private Date upddate,deldate,regdate;
 	public String getOriginalname() {
 		return originalname;
 	}
@@ -28,11 +31,11 @@ public class FileDTO {
 	public void setP_thumbname(String p_thumbname) {
 		this.p_thumbname = p_thumbname;
 	}
-	public String getRegdate() {
-		return regdate;
+	public String getExtension() {
+		return extension;
 	}
-	public void setRegdate(String regdate) {
-		this.regdate = regdate;
+	public void setExtension(String extension) {
+		this.extension = extension;
 	}
 	public int getTno() {
 		return tno;
@@ -40,12 +43,39 @@ public class FileDTO {
 	public void setTno(int tno) {
 		this.tno = tno;
 	}
+	public int getFilesize() {
+		return filesize;
+	}
+	public void setFilesize(int filesize) {
+		this.filesize = filesize;
+	}
+	public Date getUpddate() {
+		return upddate;
+	}
+	public void setUpddate(Date upddate) {
+		this.upddate = upddate;
+	}
+	public Date getDeldate() {
+		return deldate;
+	}
+	public void setDeldate(Date deldate) {
+		this.deldate = deldate;
+	}
+	public Date getRegdate() {
+		return regdate;
+	}
+	public void setRegdate(Date regdate) {
+		this.regdate = regdate;
+	}
 	@Override
 	public String toString() {
 		return "FileDTO [originalname=" + originalname + ", uploadname=" + uploadname + ", thumbname=" + thumbname
-				+ ", p_thumbname=" + p_thumbname + ", regdate=" + regdate + ", tno=" + tno + "]";
+				+ ", p_thumbname=" + p_thumbname + ", extension=" + extension + ", tno=" + tno + ", filesize="
+				+ filesize + ", upddate=" + upddate + ", deldate=" + deldate + ", regdate=" + regdate + "]";
 	}
-
+	
+	
+	
 	
 
 }

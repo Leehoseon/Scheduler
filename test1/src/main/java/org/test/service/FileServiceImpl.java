@@ -28,7 +28,7 @@ public class FileServiceImpl implements FileService {
 
 	@Override
 	public void delFile(FileDTO dto) {
-		
+		System.out.println(dto+"asdASD?ASD?ASD?");
 		mapper.delFile(dto);
 		
 	}
@@ -44,5 +44,18 @@ public class FileServiceImpl implements FileService {
 		mapper.addFile(dto);
 		
 	}
+
+	@Override
+	public int getFileCount() {
+		return mapper.getFileCount();
+	}
+
+	@Override
+	public int getTno() {
+		return mapper.getTno();
+	}
+
+
+	
 
 }

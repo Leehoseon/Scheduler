@@ -17,7 +17,7 @@
 	<ul class="s">
 	</ul>
 </div>
-
+<input type="hidden" id="uid" name="uid" value="${uid }" />
 <!-- The Modal -->
 <div id="myModal" class="modal">
 
@@ -26,7 +26,7 @@
     <span class="close">x</span>
     <input type="text" name="text" id="modalText">
     <br>
-    <button class="button special">일정 추가</button>
+    <button class="button special" id="scheduleSub">일정 추가</button>
   </div>
 
 </div>
@@ -324,10 +324,15 @@
 			
 			e.preventDefault();
 			
+			if(!$(this).css("background-color", "olive")){
+				console.log("dont...")
+				
+			}
+			
 			var id = $(this).attr("id");
 			var day = $(this).text();
 			var title = $("#yeartext").text();
-			var str = "<p>"+title+"."+day+"</p>"
+			var str = "<p id='today'>"+title+"."+day+"</p>"
 			
 			$("#modalText").before(str);
 			
@@ -368,6 +373,59 @@
 			  */
 			
 		});
+		$("#scheduleSub").on("click", function (e) {
+			
+			var uid = $("#uid").val();
+			var content = $("#modalText").val();
+			var day = $("#today").text();
+			
+			$.ajax({
+				url : "/schedule/regist",
+				method : 'post',
+				data : JSON.stringify({uid:uid,content:content,sdate:day}),
+				dataType : 'json',
+				processData: false,
+		        contentType: "application/json",
+				success : function() {
+					
+				}
+				
+			});
+			alert("일정등록성공!");
+			var modal = document.getElementById('myModal');
+			modal.style.display = "none";
+		})
+		
+		function getScheudle() {
+			
+			var uid = $("#uid").val();
+			
+			StartDay = new Date($("#year").val(),$("#month").val()-1,1).getDay();
+			
+			var month = "";
+			var str = "";
+			var target = "";
+			var content = "";
+			
+			$.ajax({
+				url : "/schedule/getSchedule/"+ uid + "",
+				method : 'get',
+				dataType : 'json',
+				success : function(arr) {
+					for (var i = 0; i < arr.length; i++) {
+						
+						target = arr[i].sdate;
+						content = arr[i].content;
+						var targetYear = target.substring(0,4);
+						var targetDay = target.substring(target.lastIndexOf(".") + 1);
+						var id = targetDay - StartDay + 1;
+						console.log(targetDay);
+						$("#"+id).css("background-color", "olive");
+					}
+				}
+			});
+			
+		}getScheudle();
 				
 	});
 </script>

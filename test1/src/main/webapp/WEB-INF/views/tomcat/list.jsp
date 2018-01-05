@@ -24,10 +24,9 @@
 		<tbody>
 			<c:forEach items="${list}" var="list">
 				<tr>
-					<td>${list.tno }</td>
+					<td id="tno"></td>
 					<td><a href="/tomcat/view?tno=${list.tno }">${list.title }</a></td>
 					<td>${list.writer }</td>
-
 				</tr>
 			</c:forEach>
 		</tbody>
@@ -43,8 +42,37 @@
 
 <script>
 	$(document).ready(function() {
+		
 		var urlParams = new URLSearchParams(window.location.search);
 		var page = urlParams.get('page');
+		
+		var writePage = page;
+		
+		function writeTno() {
+			
+			for (var i = 1; i < 11; i++) {
+				$("#tno").attr("id","tno"+i);
+			}
+			
+			var str ="";
+			
+			if(writePage===null){
+				writePage = 1;
+			}
+			if (writePage >= 2 ){
+				writePage = (writePage -1) * 10;
+			}
+			var j=1;
+			
+			for (var i = writePage; i <= (writePage * 10); i++) {
+				
+				str += i ;
+				
+				$("#tno"+ j +":nth-child(1)").text(str);
+				j++;
+				str ="";
+			} 
+		}writeTno();
 		
 		$("#3").addClass("active");
 		

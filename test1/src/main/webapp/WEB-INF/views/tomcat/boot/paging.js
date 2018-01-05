@@ -20,7 +20,8 @@ function makePage(param) {
     var startNum = makeStart();
     var realEnd = makeRealEnd();
 
-    var prev = startNum -1 ;
+    var prev = startNum -1;
+    
     var next = tempEnd * pageSize < total ? tempEnd +1: 0;
 
 //    console.log("tempEnd:" + tempEnd);
@@ -29,6 +30,7 @@ function makePage(param) {
 //    console.log("prev:" + prev);
 //    console.log("next:" + next);
 //    console.log((makeTags()));
+    
     //코드 제너레이션
     function makeTags() {
         var str = "";
