@@ -236,15 +236,16 @@
 			
 			for(i=StartDay; i<=end; i++){
 				
-				if(StartDay>=0){
+				if(StartDay>=1){
 					
 					$("#"+k).text(beforelastDate);
+					$("#"+k).attr("class","beforeMonth");
 					$("#"+k).css({color:"silver"}); 
 					beforelastDate--;
 					k--;
 				}
 					
-				$("#"+i).text(j);
+				$("#"+i).html("<p id='p"+ j +"'>"+j+"</p>");
 				$("#"+i).css({color:"black"});
 				j++;
 																
@@ -252,6 +253,7 @@
 			for(i=end+1; i<=41; i++){
 				$("#"+i).text(n);
 				$("#"+i).css({color:"silver"}); 
+				$("#"+i).attr("class","afterMonth");
 				n++;
 			}
 			for (i=1; i<=end; i++){
@@ -335,7 +337,6 @@
 		$(".s").on("click","li", function (e) {
 			
 			e.preventDefault();
-			var asd = "";
 			var id = $(this).attr("id");
 			var targetDay = $(this).text();
 			var title = $("#yeartext").text();
@@ -356,20 +357,63 @@
 			
 			console.log(targetMonth);
 			console.log(targetDay);
-			
-			asd = targetDay;
-			
-			var id = parseInt(targetDay) - parseInt(StartDay);
-			console.log
+						
+			var id = parseInt(id) - parseInt(StartDay)+1;
+			console.log(id);
 			
 			var find = $(this).attr("class");
 			var schedule = $(this).text();
+			var endText = schedule.substring(2,schedule.length);
 			
 			if(find === "selectDay"){
 				str = "<p id='today'>"+targetYear+"."+targetMonth+"."+id+"</p>";
 				$("#modalText").before(str); 
-				$("#modalText").val(schedule);
+				$("#modalText").val(endText);
 				/* $("#modalText").attr("readonly","readonly"); */
+			}else if(find === "beforeMonth"){
+				console.log("DD?")
+				if(parseInt(targetMonth)<=1){
+					targetYear -= 1;
+					targetMonth = 12;
+				}else{
+					targetMonth -= 1;	
+				}
+				if(parseInt(targetMonth) < 10){
+					
+					targetMonth = "0"+targetMonth;
+					
+				}
+				if(parseInt(targetDay) < 10){
+					
+					targetDay = "0"+targetDay;
+					
+				}
+				str = "<p id='today'>"+targetYear+"."+targetMonth+"."+schedule+"</p>";
+				$("#modalText").before(str); 
+				$("#modalText").val(endText);
+				
+			}else if(find === "afterMonth"){
+				
+				if(parseInt(targetMonth)>12){
+					parseInt(targetYear) + 1;
+					parseInt(targetMonth) = 1;
+				}else{
+					targetMonth = parseInt(targetMonth) + 1;	
+				}
+				if(parseInt(targetMonth) < 10){
+					
+					targetMonth = "0"+targetMonth;
+					
+				}
+				/* if(parseInt(targetDay) < 10){
+					
+					targetDay = "0"+targetDay;
+					
+				} */
+				str = "<p id='today'>"+targetYear+"."+targetMonth+"."+targetDay+"</p>";
+				$("#modalText").before(str); 
+				$("#modalText").val(endText);
+				
 			}else{
 				var str = "<p id='today'>"+targetYear+"."+targetMonth+"."+targetDay+"</p>" 
 				
@@ -479,7 +523,7 @@
 								var id = parseInt(targetDay) + parseInt(StartDay) -1 ;
 								console.log(id);
 								$("#"+id).css("background-color", "olive");
-								$("#"+id).html("<span>"+ content +"</span>");
+								$("#"+id).append("<br><span>"+ content +"</span>");
 								$("#"+id).attr("class","selectDay");
 							}
 						}
