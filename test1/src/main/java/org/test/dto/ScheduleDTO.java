@@ -6,7 +6,7 @@ public class ScheduleDTO {
 	
 	private String uid,sdate,content;
 	private int sno;
-	private Date regdate;
+	private Date regdate,upddate,deldate;
 	public String getUid() {
 		return uid;
 	}
@@ -37,11 +37,25 @@ public class ScheduleDTO {
 	public void setRegdate(Date regdate) {
 		this.regdate = regdate;
 	}
+	public Date getUpddate() {
+		return upddate;
+	}
+	public void setUpddate(Date upddate) {
+		this.upddate = upddate;
+	}
+	public Date getDeldate() {
+		return deldate;
+	}
+	public void setDeldate(Date deldate) {
+		this.deldate = deldate;
+	}
 	@Override
 	public String toString() {
 		return "ScheduleDTO [uid=" + uid + ", sdate=" + sdate + ", content=" + content + ", sno=" + sno + ", regdate="
-				+ regdate + "]";
+				+ regdate + ", upddate=" + upddate + ", deldate=" + deldate + "]";
 	}
+	
+	
 	
 
 }

@@ -366,9 +366,18 @@
 			var endText = schedule.substring(2,schedule.length);
 			
 			if(find === "selectDay"){
+				
+				if(parseInt(id) < 10){
+					id = "0"+id;
+				}
 				str = "<p id='today'>"+targetYear+"."+targetMonth+"."+id+"</p>";
+				/* $("#scheduleSub").remove(); */
+				/* $(".modal-content").append("<button class='button special' id='scheduleMod'>일정 수정</button>"); */
+				$("#scheduleSub").attr("id","scheduleMod");
+				$("#scheduleMod").text("일정 수정");
 				$("#modalText").before(str); 
 				$("#modalText").val(endText);
+				$(".modal-content").append("<button id='scheduleDel'>일정 삭제</button>");
 				/* $("#modalText").attr("readonly","readonly"); */
 			}else if(find === "beforeMonth"){
 				console.log("DD?")
@@ -415,6 +424,8 @@
 				$("#modalText").val(endText);
 				
 			}else{
+				$("#scheduleMod").attr("id","scheduleSub");
+				$("#scheduleSub").text("일정 추가");
 				var str = "<p id='today'>"+targetYear+"."+targetMonth+"."+targetDay+"</p>" 
 				
 				$("#modalText").before(str); 
@@ -431,6 +442,7 @@
 				modal.style.display = "none";
 				$(".modal-content").find("p").remove();
 				$("#modalText").val("");
+				$("#scheduleDel").remove();
 				
 			})
 			
@@ -456,31 +468,82 @@
 			  */
 			
 		});
-		$("#scheduleSub").on("click", function (e) {
+		
+		$(".modal-content").on("click","button", function (e) {
+			e.preventDefault();
 			
-			var uid = $("#uid").val();
-			var content = $("#modalText").val();
-			var day = $("#today").text();
+			var id = $(this).attr("id");
 			
-			$.ajax({
+			if(id === "scheduleMod"){
+				console.log("mod")
+				e.preventDefault();
 				
-				url : "/schedule/regist",
-				method : 'post',
-				data : JSON.stringify({uid:uid,content:content,sdate:day}),
-				dataType : 'json',
-				processData: false,
-		        contentType: "application/json",
-				success : function() {
+				var uid = $("#uid").val();
+				var content = $("#modalText").val();
+				var day = $("#today").text();
+				
+				
+				$.ajax({
+					url : "/schedule/modify",
+					method : 'put',
+					data : JSON.stringify({uid:uid,content:content,sdate:day}),
+					dataType : 'json',
+					processData: false,
+			        contentType: "application/json",
+					success : function() {
+						
+					}
 					
-				}
+				});
+				self.location="/tomcat/scheduler";
+			}
+			else if(id === "scheduleSub"){
+				e.preventDefault();
+				var uid = $("#uid").val();
+				var content = $("#modalText").val();
+				var day = $("#today").text();
 				
-			});
-			alert("일정등록성공!");
-			var modal = document.getElementById('myModal');
-			modal.style.display = "none";
-			$(".modal-content").find("p").remove();
-			$("#modalText").val("");
-		})
+				$.ajax({
+					
+					url : "/schedule/regist",
+					method : 'post',
+					data : JSON.stringify({uid:uid,content:content,sdate:day}),
+					dataType : 'json',
+					processData: false,
+			        contentType: "application/json",
+					success : function() {
+						
+					}
+					
+				});
+				self.location="/tomcat/scheduler";
+			}
+			else if(id === "scheduleDel"){
+				var uid = $("#uid").val();
+				var day = $("#today").text();
+				
+				var con_test = confirm("일정을 삭제하시겠습니까?");
+				if(con_test == true){
+					$.ajax({
+						
+						url : "/schedule/delete",
+						method : 'delete',
+						data : JSON.stringify({uid:uid,sdate:day}),
+						dataType : 'json',
+						processData: false,
+				        contentType: "application/json",
+						success : function() {
+							self.location="/tomcat/scheduler";
+						}
+						
+					});
+					self.location="/tomcat/scheduler";
+				}
+				else if(con_test == false){
+				  
+				}
+			}
+		});
 		
 		function getScheudle() {
 			
@@ -523,7 +586,7 @@
 								var id = parseInt(targetDay) + parseInt(StartDay) -1 ;
 								console.log(id);
 								$("#"+id).css("background-color", "olive");
-								$("#"+id).append("<br><span>"+ content +"</span>");
+								$("#"+id).append("<span>"+ content +"</span>");
 								$("#"+id).attr("class","selectDay");
 							}
 						}

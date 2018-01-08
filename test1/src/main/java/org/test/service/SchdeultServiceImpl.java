@@ -25,4 +25,17 @@ public class SchdeultServiceImpl implements ScheduleService {
 		return mapper.getSchedule(uid);
 	}
 
+	@Override
+	public void modifySchedule(ScheduleDTO dto) {
+		mapper.modifySchedule(dto);
+		
+	}
+
+	@Override
+	public void deleteSchedule(ScheduleDTO dto) {
+		
+		mapper.deleteSchedule(dto);
+		
+	}
+
 }
