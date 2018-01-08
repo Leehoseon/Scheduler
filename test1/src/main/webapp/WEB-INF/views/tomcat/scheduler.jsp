@@ -155,7 +155,7 @@
 
 	$(document).ready(function() {
 		
-		
+		var modal = document.getElementById('myModal');
 		var scheduleDay ="";
 		var Now = new Date();
 
@@ -194,6 +194,14 @@
 		console.log(month);
 		console.log(date);
 		console.log(dayLabel); */
+		
+		function hideModal() {
+			
+			modal.style.display = "none";
+			$(".modal-content").find("p").remove();
+			$("#modalText").val("");
+			$("#scheduleDel").remove();
+		};
 				
 		var j=0;
 		
@@ -224,13 +232,20 @@
 		
 		function writeDate() {
 			
-			firstDate = new Date($("#year").val(),$("#month").val(),1).getDate();
-			lastDate = new Date($("#year").val(),$("#month").val(),0).getDate();
-			StartDay = new Date($("#year").val(),$("#month").val()-1,1).getDay();
-			beforelastDate = new Date($("#year").val(),$("#month").val()-1,0).getDate();
+			$("#year").val();
+			
+			var year = $("#yeartext").text();
+			
+			var getMonth = year.substring(year.lastIndexOf(".") + 1);
+			var getYear = year.substring(0,4);
+			
+			firstDate = new Date(getYear,getMonth,1).getDate();
+			lastDate = new Date(getYear,getMonth,0).getDate();
+			StartDay = new Date(getYear,getMonth-1,1).getDay();
+			beforelastDate = new Date(getYear,getMonth-1,0).getDate();
 
 			var j=1;
-			var k=StartDay-1;;
+			var k=StartDay-1;
 			var n=1;
 			var end = lastDate+StartDay-1;
 			
@@ -431,41 +446,15 @@
 				$("#modalText").before(str); 
 			}
 		 	// Get the modal
-			var modal = document.getElementById('myModal');
-
+			
 			// Get the button that opens the modal
 			var btn = document.getElementById("#"+id);
 			modal.style.display = "block";
 			
 			$(".close").on("click", function (e) {
 				
-				modal.style.display = "none";
-				$(".modal-content").find("p").remove();
-				$("#modalText").val("");
-				$("#scheduleDel").remove();
-				
+				hideModal();
 			})
-			
-			/* // Get the <span> element that closes the modal
-			var span = document.getElementsByClassName("close")[0];
-
-			// When the user clicks on the button, open the modal 
-			btn.onclick = function() {
-			    modal.style.display = "block";
-			}
-
-			// When the user clicks on <span> (x), close the modal
-			span.onclick = function() {
-			    modal.style.display = "none";
-			}
-
-			// When the user clicks anywhere outside of the modal, close it
-			window.onclick = function(event) {
-			    if (event.target == modal) {
-			        modal.style.display = "none";
-			    }
-			}
-			  */
 			
 		});
 		
@@ -495,7 +484,11 @@
 					}
 					
 				});
-				self.location="/tomcat/scheduler";
+				
+				drwaingTable();
+				writeDate();
+				getScheudle();
+				hideModal();
 			}
 			else if(id === "scheduleSub"){
 				e.preventDefault();
@@ -516,7 +509,11 @@
 					}
 					
 				});
-				self.location="/tomcat/scheduler";
+				
+				drwaingTable();
+				writeDate();
+				getScheudle();
+				hideModal();
 			}
 			else if(id === "scheduleDel"){
 				var uid = $("#uid").val();
@@ -537,7 +534,11 @@
 						}
 						
 					});
-					self.location="/tomcat/scheduler";
+					
+					drwaingTable();
+					writeDate();
+					getScheudle();
+					hideModal();
 				}
 				else if(con_test == false){
 				  
@@ -585,7 +586,7 @@
 								var targetDay = target.substring(target.lastIndexOf(".") + 1);
 								var id = parseInt(targetDay) + parseInt(StartDay) -1 ;
 								console.log(id);
-								$("#"+id).css("background-color", "olive");
+								$("#"+id).css({color:"green"});
 								$("#"+id).append("<span>"+ content +"</span>");
 								$("#"+id).attr("class","selectDay");
 							}
@@ -595,7 +596,6 @@
 			});
 			
 		}getScheudle();
-				
 	});
 </script>
 
