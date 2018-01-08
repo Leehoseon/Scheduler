@@ -112,7 +112,14 @@ public class MainController {
 		
 		System.out.println(uid);
 		
-		return uservice.userCheck(uid);
+		String check = uservice.userCheck(uid);
+		
+		if(check != null) {
+			return "can't";
+		}else {
+			return "can";
+		}
+		
 	}
 	
 	@GetMapping("/login")
@@ -151,7 +158,7 @@ public class MainController {
 
 		uservice.userRegister(dto);
 		
-		return "redirect:/tomcat/list";
+		return "redirect:/tomcat/login";
 		
 	}
 	

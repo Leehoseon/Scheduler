@@ -42,17 +42,32 @@
 	
 <script>
 
-	$("#usubBtn").on("click", function (e) {
+$(document).ready(function() {
 	
+	var checkCompleId = "";
+
+	$("#usubBtn").on("click", function (e) {
 		e.preventDefault();
 		
-		var con_test = confirm("회원가입을하시겠습니까?");
-		if(con_test == true){
-			$("#uregForm").submit();
+		const checkUid = $("#userid").val();
+		
+		console.log(checkUid);
+		console.log(checkCompleId);
+		
+		if(checkUid === checkCompleId){
+			var con_test = confirm("회원가입을하시겠습니까?");
+			if(con_test == true){
+				/* $("#uregForm").submit(); */
+				console.log("?>>")
+			}
+			else if(con_test == false){
+			} 
+		}else{
+			alert("아이디를 확인 해주세요.");
+			$("#userid").val("");
+			$('#chkBtn').prop('checked', false);
 		}
-		else if(con_test == false){
-		  
-		}
+		
 	});
 	
 	$("#chkBtn").on("click", function (e) {
@@ -67,20 +82,28 @@
 			dataType : "text",
 			/* async: false, */
 							
-			success : function(data) {
-				console.log(data);
-				if(data === uid){
+			success : function(string) {
+				console.log(string);
+				if(string === "can't"){
 					$('#chkBtn').prop('checked', false);
 					alert("사용불가능한아이디입니다.");
-				}else if(data !== uid){
+					$("#userid").val("");
+				}else if(string === "can"){
 					$('#chkBtn').prop('checked', true);
+					checkCompleId = $("#userid").val();
 					alert("사용가능한아이디입니다.");
-				} 
+					console.log(checkCompleId);
+				}else{
+					$('#chkBtn').prop('checked', false);
+					alert("사용불가능한아이디입니다.");
+				}
 			}
 
 		});
 			
 	});
+});
+
 </script>
 
 </body>
