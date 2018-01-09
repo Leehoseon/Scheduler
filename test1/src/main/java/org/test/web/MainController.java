@@ -5,6 +5,8 @@ package org.test.web;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +33,8 @@ public class MainController {
 	FileService fservice;
 	@Autowired
 	UserService uservice;
+	@Autowired
+	private JavaMailSender mailSender;
 	
 	@GetMapping("/scheduler")
 	public void scheduler(HttpSession session,Model model){
@@ -104,6 +108,41 @@ public class MainController {
 		service.remove(tno);
 		
 		return "redirect:/tomcat/list";
+		
+	}
+	
+	@PostMapping("/findpassword")
+	public void findPasswordPost(UserDTO dto){
+		
+		System.out.println(dto);
+		
+		UserDTO udto = uservice.getUemail(dto);
+		
+		System.out.println(udto);
+		
+		String upw = udto.getUpw();
+		String uemail = udto.getUemail();
+		
+		if(upw != null) {
+			SimpleMailMessage message = new SimpleMailMessage();
+			
+			  message.setFrom("service@service.com");
+
+			  message.setTo("zzdlghtjs@naver.com");
+
+			  message.setSubject("password");
+
+			  message.setText("비밀번호 안내해드립니다"+upw);
+			  
+			  mailSender.send(message);
+			  
+		}else if (upw ==null) {
+			
+		}
+		
+	}
+	@GetMapping("/findpassword")
+	public void findPassword(UserDTO dto){
 		
 	}
 	

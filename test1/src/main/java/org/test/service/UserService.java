@@ -9,5 +9,7 @@ public interface UserService {
 	public String userCheck(String uid);
 	
 	public String loginUser(String uid);
+	
+	public UserDTO getUemail(UserDTO dto);
 
 }

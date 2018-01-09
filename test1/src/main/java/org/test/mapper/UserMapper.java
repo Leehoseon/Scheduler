@@ -15,5 +15,8 @@ public interface UserMapper {
 	
 	@Select("select uid from tbl_user WHERE (uid LIKE #{uid}) AND (upw LIKE #{upw})")
 	public String loginUser(String uid);
+	
+	@Select("select upw,uemail from tbl_user where uemail = #{uemail}")
+	public UserDTO getUemail(UserDTO dto);
 
 }

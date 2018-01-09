@@ -57,8 +57,7 @@ $(document).ready(function() {
 		if(checkUid === checkCompleId){
 			var con_test = confirm("회원가입을하시겠습니까?");
 			if(con_test == true){
-				/* $("#uregForm").submit(); */
-				console.log("?>>")
+				$("#uregForm").submit(); 
 			}
 			else if(con_test == false){
 			} 

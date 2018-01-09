@@ -31,4 +31,9 @@ public class UserServiceImpl implements UserService {
 		return mapper.loginUser(uid);
 	}
 
+	@Override
+	public UserDTO getUemail(UserDTO dto) {
+		return mapper.getUemail(dto);
+	}
+
 }

@@ -10,19 +10,15 @@
 <body>
 <div class="container">
 	<section id="content">
-		<form action="/tomcat/login" method="post">
-			<h1>Login Form</h1>
+		<form action="/tomcat/findpassword" method="post">
+			<h1>Find Password</h1>
+			<h3>이메일 확인 후 입력하신 이메일로 비밀번호를 안내 해드립니다.</h3>
 			<div>
-				<input type="text" placeholder="Username" required="" id="username" name="uid" />
+				<input type="email" placeholder="Email" required="required" id="email" name="uemail"/>
 			</div>
 			<div>
-				<input type="password" placeholder="Password" required="" id="password" name="upw" />
-			</div>
-			<div>
-				<input type="submit" value="Log in" />
-				<input type="checkbox" name="auto">
-				<a href="/tomcat/findpassword">Lost your password?</a>
-				<a href="/tomcat/userregister">Register</a>
+				<input type="submit" value="OK" />
+				<a href="/tomcat/login">Login</a>
 			</div>
 		</form><!-- form -->
 		<div class="button">
