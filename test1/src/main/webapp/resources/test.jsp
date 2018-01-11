@@ -14,7 +14,7 @@
 	<!-- Header -->
 	<header id="header"> <nav class="left"> <a href="#menu"><span>Menu</span></a>
 	</nav> <a href="index.html" class="logo">LeeHoSeon</a> <nav class="right">
-	<a href="/tomcat/login" class="button alt">Log in</a> </nav> </header>
+	<a href="/tomcat/login" class="button alt" id="login">Log in</a> </nav> </header>
 
 	<!-- Menu -->
 	<nav id="menu">

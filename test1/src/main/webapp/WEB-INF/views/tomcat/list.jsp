@@ -33,6 +33,7 @@
 	</table>
 </div>
 
+<input type="hidden" id="uid" name="uid" value="${uid }" />
 <div class="form-group" style="text-align: center;">
 	<span><div id="pagination"></div> </span>
 </div>
@@ -45,8 +46,17 @@
 		
 		var urlParams = new URLSearchParams(window.location.search);
 		var page = urlParams.get('page');
-		
 		var writePage = page;
+		
+		function changeLogin() {
+			
+			var uid = $("#uid").val();
+			
+			if(uid!==""){
+				$("#login").text("log out");
+				$("#login").attr("href","/tomcat/logout");
+			}
+		}changeLogin();
 		
 		function writeTno() {
 			

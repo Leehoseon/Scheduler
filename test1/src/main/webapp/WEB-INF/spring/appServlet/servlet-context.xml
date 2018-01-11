@@ -33,6 +33,7 @@
            <mapping path="/tomcat/*"/>
            <exclude-mapping path="/tomcat/login"/>
            <exclude-mapping path="/tomcat/userregister"/>
+           <exclude-mapping path="/tomcat/findpassword"/>
            <beans:ref bean="LoginCheckBefore"/>
         </interceptor>
         

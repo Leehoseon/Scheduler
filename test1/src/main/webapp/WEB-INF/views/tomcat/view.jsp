@@ -28,13 +28,13 @@
 			목록</button>
 	</div>
 </form>
-<input type="hidden" id="uid" name="uid" value="${uid }" />
+
 <div class="form-group" id="uploadArea">
 	<ul id="uploadUl">
 	</ul>
 </div>
 
-
+<input type="hidden" id="uid" name="uid" value="${uid }" />
 <style>
 	.plusImg {
 	max-width: 100%;
@@ -54,16 +54,15 @@
 
 		var urlParams = new URLSearchParams(window.location.search);
 
-		function hideBtn() {
+		function changeLogin() {
 			
-			var writer = $("#writer").val();
 			var uid = $("#uid").val();
-			console.log(uid);
-			console.log(writer);
-			if(writer !== uid){
-				$("#writeBtn").remove();
+			
+			if(uid!==""){
+				$("#login").text("log out");
+				$("#login").attr("href","/tomcat/logout");
 			}
-		}hideBtn();
+		}changeLogin();
 		
 		$("#listBtn").on("click", function(e) {
 

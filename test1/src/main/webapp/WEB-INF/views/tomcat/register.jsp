@@ -21,6 +21,8 @@
 	<ul id="uploadUl">
 	</ul>
 </div>
+
+<input type="hidden" id="uid" name="uid" value="${uid }" />
 <div class="form-group" style="text-align: center;">
 		<button class="button special" type="submit" id="regBtn">등록</button>
 		<button class="button alt" type="button" id="listBtn">목록</button>
@@ -29,17 +31,21 @@
 </div>
 
 
-
-<!-- <form name="fileForm" action="/tomcat/register" method="post" enctype="multipart/form-data">
-					        <input multiple="multiple" type="file" name="file" />
-					        <input type="submit" value="전송" />
-					    </form>	 -->
-
 <script>
 $(document).ready(function(){
 	
 	var formData = new FormData();
 	var addFname ="";
+	
+	function changeLogin() {
+		
+		var uid = $("#uid").val();
+		
+		if(uid!==""){
+			$("#login").text("log out");
+			$("#login").attr("href","/tomcat/logout");
+		}
+	}changeLogin();
 	
 	$("#listBtn").on("click", function (e) {
 		

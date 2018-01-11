@@ -30,7 +30,7 @@
   </div>
 
 </div>
-
+<input type="hidden" id="uid" name="uid" value="${uid }" />
 <style>
 
 #yeartext{
@@ -194,6 +194,16 @@
 		console.log(month);
 		console.log(date);
 		console.log(dayLabel); */
+		
+		function changeLogin() {
+			
+			var uid = $("#uid").val();
+			
+			if(uid!==""){
+				$("#login").text("log out");
+				$("#login").attr("href","/tomcat/logout");
+			}
+		}changeLogin();
 		
 		function hideModal() {
 			

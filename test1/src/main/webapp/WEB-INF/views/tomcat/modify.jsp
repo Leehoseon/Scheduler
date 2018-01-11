@@ -38,10 +38,21 @@
 <button class="btn btn-default" type="button" id="resetBtn">파일
 	초기화</button>
 </div>
+<input type="hidden" id="uid" name="uid" value="${uid }" />
 <script>
 $(document).ready(function(){
 	var formData = new FormData();
 	var urlParams = new URLSearchParams(window.location.search);
+	
+	function changeLogin() {
+		
+		var uid = $("#uid").val();
+		
+		if(uid!==""){
+			$("#login").text("log out");
+			$("#login").attr("href","/tomcat/logout");
+		}
+	}changeLogin();
 	
 	$("#listBtn").on("click", function (e) {
 		

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.test.dto.BoardDTO;
 import org.test.dto.Criteria;
@@ -49,7 +48,7 @@ public class MainController {
 	public void register(HttpSession session,Model model){
 		
 		String uid = (String) session.getAttribute("userId");
-		
+	
 		model.addAttribute("uid",uid);
 		
 	}
@@ -61,7 +60,10 @@ public class MainController {
 	}
 	
 	@GetMapping("/list")
-	public void list(Criteria cri,Model model){
+	public void list(Criteria cri,Model model,HttpSession session){
+		String uid = (String) session.getAttribute("userId");
+		
+		model.addAttribute("uid",uid);
 		
 		model.addAttribute("list",service.getList(cri));
 		model.addAttribute("count",service.getCount());
@@ -86,7 +88,10 @@ public class MainController {
 	}
 	
 	@GetMapping("/modify")
-	public void modify(int tno,Model model){
+	public void modify(int tno,Model model,HttpSession session){
+		String uid = (String) session.getAttribute("userId");
+		
+		model.addAttribute("uid",uid);
 					
 		model.addAttribute("view",service.getView(tno));
 		
@@ -126,7 +131,7 @@ public class MainController {
 		if(upw != null) {
 			SimpleMailMessage message = new SimpleMailMessage();
 			
-			  message.setFrom("service@service.com");
+			  message.setFrom("zzdlghtjs@naver.com");
 
 			  message.setTo("zzdlghtjs@naver.com");
 
