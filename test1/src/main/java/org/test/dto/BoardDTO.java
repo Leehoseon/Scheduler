@@ -1,9 +1,12 @@
 package org.test.dto;
 
+import java.sql.Date;
+
 public class BoardDTO {
 	
 	private int tno;
 	private String title,writer,content;
+	private Date regdate;
 	public int getTno() {
 		return tno;
 	}
@@ -28,12 +31,17 @@ public class BoardDTO {
 	public void setContent(String content) {
 		this.content = content;
 	}
+	public Date getRegdate() {
+		return regdate;
+	}
+	public void setRegdate(Date regdate) {
+		this.regdate = regdate;
+	}
 	@Override
 	public String toString() {
-		return "BoardDTO [tno=" + tno + ", title=" + title + ", writer=" + writer + ", content=" + content + "]";
+		return "BoardDTO [tno=" + tno + ", title=" + title + ", writer=" + writer + ", content=" + content
+				+ ", regdate=" + regdate + "]";
 	}
-	
 
 	
-
 }

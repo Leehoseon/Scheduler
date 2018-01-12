@@ -85,7 +85,7 @@ public class UploadController {
 		System.out.println(nthumbname);*/
 		try
 			{
-			File file = new File("C:\\upload\\"+ p_thumbname +".mp4");
+			File file = new File("C:\\upload\\"+ p_thumbname);
 			System.out.println(p_thumbname);
 					
 			return FileUtils.readFileToByteArray(file);
