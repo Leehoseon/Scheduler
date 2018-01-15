@@ -198,15 +198,10 @@ form.example::after {
 		
 		function makeForm() {
 			
-			var count = ${count};
-			
 			if(page == null){
 				page = 1;
 			}
-			if(count<= 10){
-				page = 1;
-			}
-			
+		
 			$("#searchFormPage").val(page);
 			
 			$(".example").submit();
@@ -215,6 +210,10 @@ form.example::after {
 		
 		$("#searchFormSubmit").on("click", function (e) {
 		
+			page = 1;
+			
+			$("#searchFormPage").val(page);
+			
 			e.preventDefault();
 			
 			makeForm();
