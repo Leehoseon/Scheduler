@@ -26,8 +26,8 @@ public interface BoardMapper {
 	@Update("update tbl_board set title=#{title}, writer=#{writer}, content=#{content} where tno=#{tno}")
 	public void modifyBoard(BoardDTO dto);
 	
-	@Select("select count(*) from tbl_board")
-	public int getCount();
+	/*@Select("select count(*) from tbl_board")*/
+	public int getCount(Criteria Cri);
 	
 
 }

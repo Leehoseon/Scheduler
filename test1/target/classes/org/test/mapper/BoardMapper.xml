@@ -8,7 +8,67 @@
 	
 	<select id="getList" resultType="org.test.dto.BoardDTO" >
 	
-		select * from tbl_board order by tno desc offset #{page} rows fetch next 10 rows only
+		select * from tbl_board 
+		<where>
+			<if test="searchType != null">
+				<if test="searchType == 'title' ">
+	         		title like '%'+#{searchText}+'%'
+		        </if>
+				
+		        <if test="searchType == 'writer' ">
+		            writer like '%'+#{searchText}+'%'
+		        </if>
+			</if>
+		</where>
+		
+		order by 
+		
+		<choose>
+			<when test="sortType == 'tno1' ">
+				tno
+			</when>
+			<when test="sortType == 'title' ">
+				title
+			</when>
+			<when test="sortType == 'regDate' ">
+				regdate
+			</when>
+			<when test="sortType == 'writer' ">
+		 		writer
+			</when>
+			<otherwise>
+				tno
+			</otherwise>
+		</choose>
+		<choose>
+		    <when test="order == 'asc'">
+		        asc
+		    </when>
+		    <when test="order == 'desc'">
+		        desc
+		    </when>
+		    <otherwise>
+				desc
+			</otherwise>
+ 		</choose>
+ 		
+ 		offset #{page} rows fetch next 10 rows only
+	</select>
+	
+	<select id="getCount" resultType="int" >
+	
+		select count(*) from tbl_board 
+		<where>
+			<if test="searchType != null">
+				<if test="searchType == 'title' ">
+	         		title like '%'+#{searchText}+'%'
+		        </if>
+				
+		        <if test="searchType == 'writer' ">
+		            writer like '%'+#{searchText}+'%'
+		        </if>
+			</if>
+		</where>
 		
 	</select>
 </mapper>

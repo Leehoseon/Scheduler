@@ -51,9 +51,11 @@ public class BoardServiceImpl implements BoardService {
 
 
 	@Override
-	public int getCount() {
-		
-		return mapper.getCount();
+	public int getCount(Criteria cri) {
+		return mapper.getCount(cri);
 	}
+
+
+
 	
 }

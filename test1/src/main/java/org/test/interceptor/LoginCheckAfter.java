@@ -46,7 +46,9 @@ public class LoginCheckAfter extends HandlerInterceptorAdapter {
 			catch (Exception e) {
 				System.out.println("not have");
 			}
-		}
+		}/*else if(map.get("userId") == null){
+			response.sendRedirect("/tomcat/logout");
+		}*/
 		
 	}
 

@@ -63,7 +63,7 @@ public class MainController {
 		
 		model.addAttribute("uid",uid);
 
-	      String photo = "jo.jpg";
+	      String photo = "kim3.png";
 	      String bucket = "facerekognitiontest";
 
 	      AWSCredentials credentials;
@@ -141,14 +141,22 @@ public class MainController {
 		model.addAttribute("uid",uid);
 		
 		model.addAttribute("list",service.getList(cri));
-		model.addAttribute("count",service.getCount());
+		model.addAttribute("count",service.getCount(cri));
 		
 		int page = cri.getPage();
+		
 		if(page == 0) {
 			page=1;
 		}
 		
 		model.addAttribute("tno", page);
+		
+		model.addAttribute("searchText",cri.getSearchText());
+		model.addAttribute("searchType",cri.getSearchType());
+		model.addAttribute("searchTitle",cri.getTitle());
+		model.addAttribute("searchWriter",cri.getWriter());
+		model.addAttribute("sortType",cri.getSortType());
+		model.addAttribute("order",cri.getOrder());
 		
 	}
 	

@@ -17,6 +17,6 @@ public interface BoardService {
 	
 	public void modify(BoardDTO dto);
 	
-	public int getCount();
+	public int getCount(Criteria cri);
 
 }

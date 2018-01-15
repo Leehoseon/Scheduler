@@ -10,15 +10,19 @@
 	</div>
 	<div class="searchArea">
 		<div class="custom-select">
-		  <select>
-		    <option value="0">Select Sub:</option>
-		    <option value="title">Title</option>
-		    <option value="writer">Writer</option>
+		  <select id="selectOption">
+		    <option value="Select Sub">Select Sub:</option>
+		    <option id="searchOptionTitle" value="title">Title</option>
+		    <option id="searchOptionWriter" value="writer">Writer</option>
 		  </select>
 		</div>
-		<form class="example" action="action_page.php">
-			  <input type="text" placeholder="Search.." name="search">
-			  <button type="submit"><i class="fa fa-search"></i></button>
+		<form class="example" action="/tomcat/list">
+			  <input type="text" placeholder="Search.." name="searchText" value="${searchText }">
+			  <input type="hidden" name="searchType" id="searchType" value="${searchType }">
+			  <input type="hidden" name="sortType" id="sortType" value="${sortType }">
+			  <input type="hidden" name="page" id="searchFormPage">
+			  <input type="hidden" name="order" id="order" value="${order }">
+			  <button type="submit" id="searchFormSubmit"><i class="fa fa-search"></i></button>
 		</form>
 	</div>
 	
@@ -28,10 +32,10 @@
 	<table class="table-wrapper" id="dataTable">
 		<thead>
 			<tr id="sortTable">
-				<th id="No" scope="col">Tno</th>
-				<th id="Title" scope="col">Title</th>
-				<th id="Writer" scope="col">Writer</th>
-				<th id="Writer" scope="col">RegDate</th>
+				<th id="tno" scope="col">Tno</th>
+				<th id="title" scope="col">Title</th>
+				<th id="writer" scope="col">Writer</th>
+				<th id="regDate" scope="col">RegDate</th>
 			</tr>
 		</thead>
 		<!-- 본문 영역 -->
@@ -49,6 +53,7 @@
 </div>
 
 <input type="hidden" id="uid" name="uid" value="${uid }" />
+
 <div class="form-group" style="text-align: center;">
 	<span><div id="pagination"></div> </span>
 </div>
@@ -180,6 +185,52 @@ form.example::after {
 		var page = urlParams.get('page');
 		var writePage = page;
 		
+		function selectedSearchType() {
+			var searchValue = $("#searchType").val();
+			console.log(searchValue);
+			if(searchValue === "title" && "writer"){
+				$("#selectOption").val(searchValue).attr("selected",searchValue);	
+			}
+			else if(searchValue === null){
+				$("#selectOption").val("Select Sub:").attr("selected","true");
+			}
+		}selectedSearchType();
+		
+		function makeForm() {
+			
+			var count = ${count};
+			
+			if(page == null){
+				page = 1;
+			}
+			if(count<= 10){
+				page = 1;
+			}
+			
+			$("#searchFormPage").val(page);
+			
+			$(".example").submit();
+			
+		};
+		
+		$("#searchFormSubmit").on("click", function (e) {
+		
+			e.preventDefault();
+			
+			makeForm();
+			
+		});
+		
+		$("#selectOption").on("click", function (e) {
+			
+			var optionValue = $(this).val();
+			
+			console.log(optionValue);
+			
+			$("#searchType").val(optionValue);
+			
+		})
+		
 		function changeLogin() {
 			
 			var uid = $("#uid").val();
@@ -192,7 +243,7 @@ form.example::after {
 		
 		function writeTno() {
 			
-			for (var i = 1; i < 11; i++) {
+			for (var i = 1; i < 12; i++) {
 				$("#tno").attr("id","tno"+i);
 			}
 			
@@ -202,11 +253,13 @@ form.example::after {
 				writePage = 1;
 			}
 			if (writePage >= 2 ){
-				writePage = (writePage -1) * 10;
+				writePage = (writePage -1) * 10 +1;
 			}
-			var j=1;
+			var j=2;
 			
-			for (var i = writePage; i <= (writePage * 10); i++) {
+			var target = (writePage * 10) + 1;
+			
+			for (var i = writePage; i < target; i++) {
 				
 				str += i ;
 				
@@ -241,9 +294,13 @@ form.example::after {
 			var pageNum = $this.attr('id');
 			console.log(pageNum);
 			
-			self.location="/tomcat/list?page="+pageNum;
+			page = pageNum;
 			
-		})
+			$("#searchFormPage").val(pageNum);
+			
+			makeForm();
+			
+		});
 		
 		function selectColor() {
 		
@@ -251,6 +308,27 @@ form.example::after {
 			$("#"+page).css("color", "white");
 			
 		}selectColor();
+		
+		$("#sortTable").on("click","th", function (e) {
+			
+			var sortName = $(this).attr("id");
+			
+			$("#sortType").val(sortName);
+			
+			var orderValue = $("#order").val();
+			
+			console.log(orderValue);
+			
+			if(orderValue===""){
+				$("#order").val("desc");
+			}else if(orderValue === "desc"){
+				$("#order").val("asc");
+			}else if(orderValue=== "asc"){
+				$("#order").val("desc");
+			}
+			makeForm();
+		})
+		
 	});
 </script>
 
