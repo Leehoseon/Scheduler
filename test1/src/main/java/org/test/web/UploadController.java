@@ -114,8 +114,6 @@ public class UploadController {
 		}
 		
 	}
-
-	String endTarget;
 	
 	@PostMapping("/registfile")
 	public void regFile(List<MultipartFile> file) throws IOException{
@@ -210,7 +208,7 @@ public class UploadController {
 
 			fservice.putFile(dto);
 			
-			endTarget = target+ uploadname + extension;
+			/*endTarget = target+ uploadname + extension;
 			
 			String photo=endTarget;
 
@@ -260,7 +258,7 @@ public class UploadController {
 
 	        } catch (AmazonRekognitionException e) {
 	            e.printStackTrace();
-	        }
+	        }*/
 			
 		}
 		

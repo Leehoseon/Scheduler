@@ -21,7 +21,7 @@
 	<ul class="links">
 		<li><a href="/tomcat/list">Home</a></li>
 		<li><a href="/tomcat/scheduler">Scheduler</a></li>
-		<li><a href="elements.html">Elements</a></li>
+		<li><a href="/tomcat/detectfaces">DetectFaces</a></li>
 	</ul>
 	<ul class="actions vertical">
 		<li><a href="/tomcat/login" class="button fit">Login</a></li>

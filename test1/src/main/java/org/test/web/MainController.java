@@ -56,6 +56,11 @@ public class MainController {
 	@Autowired
 	private JavaMailSender mailSender;
 	
+	@GetMapping("/detectfaces")
+	public void detectfaces() {
+		
+	}
+	
 	@GetMapping("/scheduler")
 	public void scheduler(HttpSession session,Model model){
 		
