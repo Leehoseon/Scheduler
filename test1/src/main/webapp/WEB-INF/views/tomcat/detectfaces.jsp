@@ -36,6 +36,7 @@ $(document).ready(function(){
 	
 	var formData = new FormData();
 	var addFname ="";
+	var str ="";
 	
 	function changeLogin() {
 		
@@ -126,20 +127,41 @@ $(document).ready(function(){
 			alert("제목을입력하세요!");
 			
 		} else{
-			
+			var test = [];
 			$.ajax({
 		    	url: "/detectfaces/regfaces",
 		        method: 'post',
 		        data: formData,
-		        dataType: 'json',
+		        dataType: 'text',
 		        processData: false,
 		        contentType: false,
-		        success: function(arr) {
-					str+= arr[i];
+		        success: function(data) {
+		        	   /* for(var i=0; i >= arr.length; i++){
+		        		str += arr[i];
+		        		console.log(str);
+			        	$("#content").html(str); 
+		        	}    */
+		        	/* console.log(arr.toString());
+		        	for (var eachItem in arr) {
+		        		test.push(eachItem);
+		        		console.log(test);
+		        	} */
 		        	
-		        	$("#content").append(str);
-		        }
+		        	str += data;
+		        	alert(str);
+		        	console.log(str);
+		        	
+/* 		        	for(key in arr){
 
+		        		alert("obj[" + name + "]" + arr[name]);
+
+		        	} */
+
+		        	/* 
+					str += arr;
+		        	console.log(str); */
+		        }
+			
 			});
 								
 		
@@ -152,7 +174,6 @@ $(document).ready(function(){
 			}myFunction();
 			
 		} 
-						
 	});
 	
 });

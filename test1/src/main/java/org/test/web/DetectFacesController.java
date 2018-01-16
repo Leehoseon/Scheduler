@@ -45,7 +45,9 @@ public class DetectFacesController {
 	String endTarget;
 	
 	@PostMapping("/regfaces")
-	public void regDetectFaces(List<MultipartFile> file) throws IOException{
+	public String regDetectFaces(List<MultipartFile> file) throws IOException{
+		String text = "";
+		List <Label> labels = null;
 		
 		int size = file.size();
 		
@@ -176,13 +178,15 @@ public class DetectFacesController {
 	        System.out.println("request다음====================");
 	        
 	        try {
-
+	        	
 	            DetectLabelsResult result = rekognitionClient.detectLabels(request);
-	            List <Label> labels = result.getLabels();
+	            labels = result.getLabels();
 
 	            System.out.println("Detected labels for " + photo);
 	            for (Label label: labels) {
+	               text += label.getName() + ": " + label.getConfidence().toString()+"\r\n";
 	               System.out.println(label.getName() + ": " + label.getConfidence().toString());
+	               System.out.println(text);
 	            }
 
 	        } catch (AmazonRekognitionException e) {
@@ -190,5 +194,7 @@ public class DetectFacesController {
 	        }
 			
 		}
+		System.out.println(text+"last");
+		return text;
 	}
 }

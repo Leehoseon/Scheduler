@@ -142,9 +142,10 @@ public class MainController {
 	@GetMapping("/list")
 	public void list(Criteria cri,Model model,HttpSession session){
 		String uid = (String) session.getAttribute("userId");
-		
+		List<BoardDTO> dto;
 		model.addAttribute("uid",uid);
-		
+		dto = service.getList(cri);
+		System.out.println(dto);
 		model.addAttribute("list",service.getList(cri));
 		model.addAttribute("count",service.getCount(cri));
 		
