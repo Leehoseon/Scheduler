@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="/resources/test.jsp"%>
 <form id="regForm">
-	<div class="form-group">
+	<%-- <div class="form-group">
 		<input type="text" name="title" id="title" value=""
 			placeholder="제목을 입력하세요">
 	</div>
@@ -13,7 +13,7 @@
 	<div class="form-group">
 		<textarea name="content" id="content" value="" placeholder="내용을 입력하세요"
 			rows=9></textarea>
-	</div>
+	</div> --%>
 	
 </form>
 
@@ -30,7 +30,12 @@
 			초기화</button>
 </div>
 
+<style>
+#uploadUl li{
+	list-style: none;
+}
 
+</style>
 <script>
 $(document).ready(function(){
 	
@@ -80,7 +85,7 @@ $(document).ready(function(){
 			formData.append("file",files[i]);
 			var fname = files[i].name;
 		
-			addFname = "<li id='"+ fname+"''>"+ fname +"</li>";
+			addFname = "<li id='"+ fname+"''>파일명:"+ fname +"</li>";
 			
 			var text = fname.substring(fname.lastIndexOf(".") + 1);
 			
@@ -124,7 +129,7 @@ $(document).ready(function(){
 		
 		if(title==""){
 			
-			alert("제목을입력하세요!");
+			/* alert("제목을입력하세요!"); */
 			
 		} else{
 			var test = [];
@@ -147,34 +152,44 @@ $(document).ready(function(){
 		        		console.log(test);
 		        	} */
 		        	
-		        	str += data;
-		        	alert(str);
+		        	str +="<li>인식결과:"+ data +"</li><br>";
+		        	/* alert(str); */
+		        	addFname = "<img id='' src='/detectfaces/getThumb/DETECT0__THUM'></img>";
 		        	console.log(str);
+		        	$("#uploadUl").append(addFname);
+		        	$("#uploadUl").append(str);
 		        	
 /* 		        	for(key in arr){
 
 		        		alert("obj[" + name + "]" + arr[name]);
 
 		        	} */
-
+		        	
 		        	/* 
 					str += arr;
 		        	console.log(str); */
 		        }
 			
 			});
-								
+			
 		
 			function myFunction() {
 			    myVar = setTimeout(alertFunc, 1000);
 			}
 			function alertFunc() {
 				/* self.location="/tomcat/list"; */
+				hideRegBtn();
 			    alert("등록성공!");
 			}myFunction();
 			
 		} 
 	});
+	
+	function hideRegBtn() {
+		if(str!==null){
+			$("#regBtn").hide();
+		}
+	}
 	
 });
 

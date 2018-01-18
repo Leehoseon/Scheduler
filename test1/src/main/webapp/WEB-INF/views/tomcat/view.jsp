@@ -53,8 +53,8 @@
 <script>
 	$(document).ready(function() {
 
-		var urlParams = new URLSearchParams(window.location.search);
-
+		var page = getQuerystring("page");
+		
 		function changeLogin() {
 			
 			var uid = $("#uid").val();
@@ -74,8 +74,7 @@
 		});
 
 		function getFlist() {
-			var tno = urlParams.get('tno');
-			console.log(tno);
+			
 			var str="";
 			$.ajax({
 				url : "/file/getflist/" + tno + "",

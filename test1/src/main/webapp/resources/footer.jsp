@@ -56,10 +56,8 @@
 	
 <script type="text/javascript">
 
-		
-</script>
 	
-
+		
 </script>
 	
 </html>

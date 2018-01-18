@@ -13,9 +13,12 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.inject.Inject;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.imgscalr.Scalr;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,6 +49,19 @@ public class DetectFacesController {
 	
 	@PostMapping("/regfaces")
 	public String regDetectFaces(List<MultipartFile> file) throws IOException{
+		
+		File delfile = new File("C:\\upload\\"+ "DETECT0__THUM.jpg" );
+		
+		if( delfile.exists() ){
+            if(delfile.delete()){
+                System.out.println("파일삭제 성공");
+            }else{
+                System.out.println("파일삭제 실패");
+            }
+        }else{
+            System.out.println("파일이 존재하지 않습니다.");
+        }
+		
 		String text = "";
 		List <Label> labels = null;
 		
@@ -79,25 +95,16 @@ public class DetectFacesController {
 			
 			int fileCount = fservice.getFileCount();
 			
-			try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
 			fileCount ++;
 			
 			System.out.println(fileCount);
 			
-			String s = String.format("%02d", fileCount);
+			/*String s = String.format("%02d", fileCount);*/
 			/*int t = fservice.getTno();*/
 			int t = 00000;
-			String uploadname = "F00000"+t+"_"+s+"_"+"MAIN";
+			String uploadname = "DETECT"+t+"_"+"_"+"MAIN";
 			
-			String thumbname = "F00000"+t+"_"+s+"_"+"THUM";
-			
-			String p_thumbname = "F00000"+t+"_"+s+"_"+"THUM";
+			String thumbname = "DETECT"+t+"_"+"_"+"THUM";
 			
 			System.out.println(uploadname);
 			
@@ -119,15 +126,6 @@ public class DetectFacesController {
 				ImageIO.write(destImg, "jpg", new FileOutputStream("C:\\face\\" + thumbname + extension ));
 				dto.setThumbname(thumbname);
 				
-			}if (contentType.equals("video/mp4")){
-				
-				System.out.println("it is video file..");
-
-				dto.setP_thumbname(p_thumbname);
-				OutputStream pout = new FileOutputStream("C:\\face\\"+ p_thumbname + extension);
-				
-				FileCopyUtils.copy(file.get(i).getInputStream(), pout);
-				
 			}
 			
 			/*dto.setOriginalname(originalname);
@@ -136,6 +134,13 @@ public class DetectFacesController {
 			dto.setExtension(extension);*/
 			System.out.println(filesize);
 			System.out.println(extension);
+			
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 			/*fservice.putFile(dto);*/
 			
@@ -196,5 +201,31 @@ public class DetectFacesController {
 		}
 		System.out.println(text+"last");
 		return text;
+	}
+	
+	@GetMapping("/getThumb/{thumbname:.+}")
+	public byte[] getFlist(@PathVariable("thumbname")String thumbname ){
+		
+		/*int Idx = thumbname.lastIndexOf(".");
+		System.out.println(Idx);
+		int sdf = thumbname.length();
+		System.out.println(sdf);
+		
+		String nthumbname = thumbname.substring(Idx, Idx+4);
+		System.out.println(nthumbname);*/
+		
+		try
+			{
+			File file = new File("C:\\face\\"+ "DETECT0__MAIN.jpg" );
+			System.out.println(thumbname);
+					
+			return FileUtils.readFileToByteArray(file);
+			
+			}
+		
+		catch (Exception e) {
+			
+			return  null;
+		}
 	}
 }

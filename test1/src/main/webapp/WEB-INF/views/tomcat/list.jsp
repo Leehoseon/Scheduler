@@ -20,7 +20,7 @@
 			  <input type="text" placeholder="Search.." name="searchText" value="${searchText }">
 			  <input type="hidden" name="searchType" id="searchType" value="${searchType }">
 			  <input type="hidden" name="sortType" id="sortType" value="${sortType }">
-			  <input type="hidden" name="page" id="searchFormPage">
+			  <input type="hidden" name="page" id="searchFormPage" value="${page }">
 			  <input type="hidden" name="order" id="order" value="${order }">
 			  <button type="submit" id="searchFormSubmit"><i class="fa fa-search"></i></button>
 		</form>
@@ -181,9 +181,12 @@ form.example::after {
 
 	$(document).ready(function() {
 		
-		var urlParams = new URLSearchParams(window.location.search);
-		var page = urlParams.get('page');
 		var writePage = page;
+		console.log(writePage);
+		
+		if(writePage===undefined){
+			self.location = "/tomcat/list?page="+ ${page} +"";
+		};
 		
 		function selectedSearchType() {
 			var searchValue = $("#searchType").val();

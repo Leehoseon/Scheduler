@@ -62,7 +62,6 @@ public class UploadController {
 	@Inject FileService fservice;
 	
 	@GetMapping("/getThumb/{thumbname:.+}")
-	
 	public byte[] getFlist(@PathVariable("thumbname")String thumbname ){
 		
 		/*int Idx = thumbname.lastIndexOf(".");
@@ -85,7 +84,6 @@ public class UploadController {
 			
 			return  null;
 		}
-		
 	}
 	
 	@GetMapping("/getPthumb/{p_thumbname:.+}")
@@ -404,6 +402,7 @@ public class UploadController {
 		
 		byte fileByte[] = FileUtils.readFileToByteArray(new File("C:\\upload\\" + uploadname));
 	     
+		resp.setHeader( "Content-Disposition", "attachment;filename=" + uploadname );
 	    resp.setContentType("application/octet-stream");
 	    resp.setContentLength(fileByte.length);
 	    resp.setHeader("Content-Transfer-Encoding", "binary");

@@ -38,4 +38,6 @@
 					<script src="/boot/assets/js/skel.min.js"></script>
 					<script src="/boot/assets/js/util.js"></script>
 					<script src="/boot/assets/js/main.js"></script>
+					<script src="/boot/geturlparam.js"></script>
+					
 

@@ -155,8 +155,7 @@ public class MainController {
 			page=1;
 		}
 		
-		model.addAttribute("tno", page);
-		
+		model.addAttribute("page", page);
 		model.addAttribute("searchText",cri.getSearchText());
 		model.addAttribute("searchType",cri.getSearchType());
 		model.addAttribute("searchTitle",cri.getTitle());
