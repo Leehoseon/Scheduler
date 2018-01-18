@@ -37,5 +37,3 @@ var tno = getQuerystring("tno");
 
 /*var page = getQuerystring("page");
 var tno = getQuerystring("tno");*/
-	
-	
