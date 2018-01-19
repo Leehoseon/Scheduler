@@ -4,8 +4,7 @@ import java.sql.Date;
 
 public class ReplyDTO {
 	private int rno,tno;
-	private String writer,content;
-	private Date regdate,upddate,deldate;
+	private String uid,content,regdate,upddate,deldate;
 	public int getRno() {
 		return rno;
 	}
@@ -18,11 +17,11 @@ public class ReplyDTO {
 	public void setTno(int tno) {
 		this.tno = tno;
 	}
-	public String getWriter() {
-		return writer;
+	public String getUid() {
+		return uid;
 	}
-	public void setWriter(String writer) {
-		this.writer = writer;
+	public void setUid(String uid) {
+		this.uid = uid;
 	}
 	public String getContent() {
 		return content;
@@ -30,28 +29,29 @@ public class ReplyDTO {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public Date getRegdate() {
+	public String getRegdate() {
 		return regdate;
 	}
-	public void setRegdate(Date regdate) {
+	public void setRegdate(String regdate) {
 		this.regdate = regdate;
 	}
-	public Date getUpddate() {
+	public String getUpddate() {
 		return upddate;
 	}
-	public void setUpddate(Date upddate) {
+	public void setUpddate(String upddate) {
 		this.upddate = upddate;
 	}
-	public Date getDeldate() {
+	public String getDeldate() {
 		return deldate;
 	}
-	public void setDeldate(Date deldate) {
+	public void setDeldate(String deldate) {
 		this.deldate = deldate;
 	}
 	@Override
 	public String toString() {
-		return "ReplyDTO [rno=" + rno + ", tno=" + tno + ", writer=" + writer + ", content=" + content + ", regdate="
+		return "ReplyDTO [rno=" + rno + ", tno=" + tno + ", uid=" + uid + ", content=" + content + ", regdate="
 				+ regdate + ", upddate=" + upddate + ", deldate=" + deldate + "]";
 	}
+	
 	
 }

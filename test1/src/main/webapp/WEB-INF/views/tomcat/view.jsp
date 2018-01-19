@@ -24,6 +24,7 @@
 	<ul id="uploadUl">
 	</ul>
 </div>
+<br>
 <label for="editor">댓글</label>
 
 <div id="replyArea">
@@ -32,6 +33,7 @@
 		<button id="replyRegBtn" class="button special" type="submit" style="float: right; height: 100px; width: 15%;">
 		등록</button>
 	</div>
+	<div id="replyList"></div>
 </div>
 
 <br>
@@ -43,6 +45,22 @@
 		목록</button>
 </div>
 <style>
+
+	#replyList{
+		margin-top: 10px;
+	}
+
+	#replyList div{
+		
+		width: 100%;
+		float: left;
+	}
+	#replyTopDiv div{
+		width:30%;
+		min-height: 2em !important;
+		margin-top: 2em;
+		
+	}
 	
 	#uploadUl{
 		list-style: none;
@@ -50,11 +68,52 @@
 	
 	
 	#replyArea {
-		border-radius: 10px !important;
+		/* border-radius: 10px !important;
 		border-color: silver !important;
 		border: 3px solid;
-		height:150px;
+		min-height: auto; */
 	}
+	
+	.uidDiv{
+		margin-left: 5%;
+		width:10% !important;
+	}
+	.contentDiv{
+		float :left;
+		margin-left: 5%;
+		width:50% !important;
+	}
+	.contentChangeDiv{
+		margin-top : 2%;
+		float :left;
+		margin-left: 5%;
+		width:40% !important;
+		resize: none;
+		height: 45px;
+	}
+	#replyModBtn{
+		margin-top : 3%;
+		float :left;
+		width:10% !important;
+		text-align: center;
+	}
+	.regdateDiv{
+		width:20% !important;
+	}
+	.closeDiv{
+		float: left;
+		min-height: 2em !important;
+		margin-top: 2em;
+		width:5% !important;
+	}
+	.modifyDiv{
+		float: left;
+		margin-right: 2em !important;
+		/* min-height: 2em !important;
+		margin-top: 2em;
+		width:5% !important; */
+		
+	} 
 
 	.plusImg {
 	max-width: 100%;
@@ -72,7 +131,7 @@
 
 <script>
 	$(document).ready(function() {
-
+		
 		var page = getQuerystring("page");
 		
 		function changeLogin() {
@@ -127,8 +186,25 @@
 				}
 
 			});
+			
+			hideModBtn();
 		}
 		getFlist();
+		
+		function hideModBtn() {
+			
+			var writer = $(".uidDiv").text();
+			var uid = $("#uid").val();
+			
+			console.log(writer+"writer");
+			console.log(uid+"uid");
+			
+			if(writer !== uid){
+				return false;
+			}else{
+				return true;
+			}
+		};
 		
 		$("#uploadUl").on("click","img", function () {
 			
@@ -184,31 +260,13 @@
 			console.log("ok??"+url)
 		};
 		
-		$("#replyRegBtn").on("click", function (e) {
-			
-			var content = $("#replyContent").val();
-			
-			var tno = $("#tno").val();
-			
-			var writer = $("#uid").val();
-			
-			console.log(writer);
-			
-			$.ajax({
-		    	url: "/reply/register",
-		        method: 'post',
-		        data: {content:content,writer:writer,tno:tno},
-		        dataType: 'json',
-		        success: function(data) {
-		        	
-		        }
-			});
-		})
-		
 		function getRlist() {
-			
-			var str="";
+			var str=""; 
 			var tno = $("#tno").val(); 
+			
+			var test = hideModBtn();
+			
+			console.log(test);
 			
 			$.ajax({
 				url : "/reply/getrlist/" + tno + "",
@@ -217,16 +275,127 @@
 				/* async: false, */
 				success : function(arr) {
 					for (var i = 0; i < arr.length; i++) {
-
-						str += "<li><a href='/file/download/"+arr[i].uploadname+arr[i].extension+"' download='"+arr[i].originalname+"'>" + arr[i].originalname + "</a>"
+						
+						str = "<div id='replyTopDiv'><div id='"+arr[i].uid+arr[i].rno+"' class='uidDiv'>"+arr[i].uid+"</div>"
+						+"<div id='content"+arr[i].rno+"' class='contentDiv'>"+arr[i].content+"<p id='"+arr[i].rno+"' class='modifyDiv'>&#9997;</p></div>"
+						
+						+"<div class='regdateDiv'>"+arr[i].regdate+"</div><p id='"+arr[i].rno+"' class='closeDiv'>&#10006;</p></div>";
+						
+						$("#replyList").append(str);
 						
 					}
-					
+					str="";
 				}
-
 			});
-		};
-	
-	});
+		}getRlist();
+		
+		$("#replyRegBtn").on("click", function (e) {
+			
+			var content = $("#replyContent").val();
+			
+			var tno = $("#tno").val();
+			
+			var uid = $("#uid").val();
+			
+			console.log(writer);
+			
+			$.ajax({
+		    	url: "/reply/register",
+		        method: 'post',
+		        data: {content:content,uid:uid,tno:tno},
+		        dataType: 'text',
+		        success: function(text) {
+		        	
+					var link = document.location.href;
+					
+					alert("댓글등록!")
+					
+					self.location=""+link;
+		        	
+				}
+			});
+			
+		});
+		
+		$("#replyTopDiv").on("click", function (e) {
+			
+			/* $(this).find("id") */
+			
+		});
+		
+		$("#replyArea").on("click","p", function (e) {
+			
+			e.preventDefault();
+			
+			var rno = $(this).attr("id");
+			
+			console.log(rno);
+			var contentRno ="content"+ rno;
+			
+			var cls = $(this).attr("class");
+			
+			$(this).remove();
+			
+			var text = $("#"+contentRno).text();
+			
+			
+			if(cls ==="modifyDiv"){
+				
+				console.log(cls);
+				var str = "<textarea rows='1' id='"+rno+"' class='contentChangeDiv'>"+text+"</textarea><i id='replyModBtn' class='"+rno+"'>&#10004</i>"
+				
+				$("#"+contentRno).replaceWith(str);
+				console.log(str);
+				
+				$("#"+rno).css({width:"30%"});
+				
+				
+			}else{
+				$.ajax({
+					url : "/reply/delete/" + rno + "",
+			        method: 'get',
+			        dataType: 'json',
+			        success: function(data) {
+			        	
+					}
+				});
+				var link = document.location.href;
+				
+				alert("댓글삭제완료!")
+				
+				self.location=""+link;
+			}
+			
+		});
+		
+		$("#replyArea").on("click","i", function (e) {
+
+			e.preventDefault();
+			
+			var rno = $(this).attr("class");
+			
+			var content = $("#"+rno).val();
+			/* $(".contentChangeDiv").val(text); */
+			console.log(rno);
+			console.log(content);
+			
+			$.ajax({
+				url : "/reply/modify/",
+		        method: 'post',
+		        data:{rno:rno,content:content},
+		        dataType: 'json',
+		        success: function(data) {
+		        	
+				}
+			});
+			var link = document.location.href;
+			
+			alert("댓글수정완료!")
+			
+			self.location=""+link;
+		});
+});
+
+
 </script>
 <%@ include file="/resources/footer.jsp"%>
