@@ -191,6 +191,21 @@
 		}
 		getFlist();
 		
+		function hideModBtn() {
+			
+			var writer = $(".uidDiv").text();
+			var uid = $("#uid").val();
+			
+			console.log(writer+"writer");
+			console.log(uid+"uid");
+			
+			if(writer !== uid){
+				return false;
+			}else{
+				return true;
+			}
+		};
+		
 		$("#uploadUl").on("click","img", function () {
 			
 			var src = $(this).attr("src");
@@ -249,6 +264,10 @@
 			var str=""; 
 			var tno = $("#tno").val(); 
 			
+			var test = hideModBtn();
+			
+			console.log(test);
+			
 			$.ajax({
 				url : "/reply/getrlist/" + tno + "",
 				method : 'get',
@@ -257,7 +276,7 @@
 				success : function(arr) {
 					for (var i = 0; i < arr.length; i++) {
 						
-						str = "<div id='replyTopDiv'><div id='"+arr[i].uid+arr[i].rno+"' class='uidDiv"+i+"'>"+arr[i].uid+"</div>"
+						str = "<div id='replyTopDiv'><div id='"+arr[i].uid+arr[i].rno+"' class='uidDiv'>"+arr[i].uid+"</div>"
 						+"<div id='content"+arr[i].rno+"' class='contentDiv'>"+arr[i].content+"<p id='"+arr[i].rno+"' class='modifyDiv'>&#9997;</p></div>"
 						
 						+"<div class='regdateDiv'>"+arr[i].regdate+"</div><p id='"+arr[i].rno+"' class='closeDiv'>&#10006;</p></div>";
@@ -269,29 +288,6 @@
 				}
 			});
 		}getRlist();
-		
-		function hideModBtn() {
-			
-			var writer = $(".uidDiv").text();
-			
-			/* var getId = ".uidDiv" + */
-			
-			var uid = $("#uid").val();
-			
-			for (var i = 0; i < 9; i++) {
-				var getId = ".uidDiv" + i + "";
-				
-			}
-			
-			console.log(writer+"writer");
-			console.log(uid+"uid");
-			
-			if(writer !== uid){
-				return false;
-			}else{
-				return true;
-			}
-		}hideModBtn();
 		
 		$("#replyRegBtn").on("click", function (e) {
 			
