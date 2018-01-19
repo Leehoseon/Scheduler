@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/resources/test.jsp"%>
-<form action="/tomcat/modify" id="submitFrm">
+<form action="/tomcat/modify" id="modifyFrm">
 	<div class="form-group">
 		<label for="editor">제목</label> <input class="form-control"
 			name="content" id="title" type="text" readonly="readonly"
@@ -13,29 +13,49 @@
 			value="${view.writer }">
 	</div>
 	<div class="form-group">
-		<label for="editor">내용</label> <input class="form-control"
-			name="content" id="content" type="text" readonly="readonly"
-			value="${view.content }"></input>
+		<label for="editor">내용</label> <textarea class="form-control"
+			name="content" id="content" rows="9" readonly="readonly"
+			>${view.content }</textarea>
 	</div>
 	<input type="hidden" id="tno" name="tno" value="${view.tno }" />
-
-	<div class="form-group" style="text-align: center;">
-
-		<button id="writeBtn" class="button special" type="submit">
-			수정</button>
-
-		<button id="listBtn" class="btn btn-default" type="button">
-			목록</button>
-	</div>
 </form>
-
+<label for="editor">등록된 파일</label>
 <div class="form-group" id="uploadArea">
 	<ul id="uploadUl">
 	</ul>
 </div>
+<label for="editor">댓글</label>
 
-<input type="hidden" id="uid" name="uid" value="${uid }" />
+<div id="replyArea">
+	<div style="width: 100%; margin-top: 25px;">
+		<textarea id="replyContent" style="resize: none; height: 100px; float: left; width: 85%;"></textarea>
+		<button id="replyRegBtn" class="button special" type="submit" style="float: right; height: 100px; width: 15%;">
+		등록</button>
+	</div>
+</div>
+
+<br>
+
+<div class="form-group" style="text-align: center;">
+	<button id="modifyBtn" class="button special" type="button">
+		수정</button>
+	<button id="listBtn" class="btn btn-default" type="button">
+		목록</button>
+</div>
 <style>
+	
+	#uploadUl{
+		list-style: none;
+	}
+	
+	
+	#replyArea {
+		border-radius: 10px !important;
+		border-color: silver !important;
+		border: 3px solid;
+		height:150px;
+	}
+
 	.plusImg {
 	max-width: 100%;
 	max-height: 100%;
@@ -72,7 +92,15 @@
 			self.location = "/tomcat/list";
 
 		});
-
+		
+		$("#modifyBtn").on("click", function (e) {
+			
+			e.preventDefault();
+			
+			$("#modifyFrm").submit();
+			
+		});
+		
 		function getFlist() {
 			
 			var str="";
@@ -154,6 +182,49 @@
 			$("#plus").attr("id","");
 			
 			console.log("ok??"+url)
+		};
+		
+		$("#replyRegBtn").on("click", function (e) {
+			
+			var content = $("#replyContent").val();
+			
+			var tno = $("#tno").val();
+			
+			var writer = $("#uid").val();
+			
+			console.log(writer);
+			
+			$.ajax({
+		    	url: "/reply/register",
+		        method: 'post',
+		        data: {content:content,writer:writer,tno:tno},
+		        dataType: 'json',
+		        success: function(data) {
+		        	
+		        }
+			});
+		})
+		
+		function getRlist() {
+			
+			var str="";
+			var tno = $("#tno").val(); 
+			
+			$.ajax({
+				url : "/reply/getrlist/" + tno + "",
+				method : 'get',
+				dataType : 'json',
+				/* async: false, */
+				success : function(arr) {
+					for (var i = 0; i < arr.length; i++) {
+
+						str += "<li><a href='/file/download/"+arr[i].uploadname+arr[i].extension+"' download='"+arr[i].originalname+"'>" + arr[i].originalname + "</a>"
+						
+					}
+					
+				}
+
+			});
 		};
 	
 	});

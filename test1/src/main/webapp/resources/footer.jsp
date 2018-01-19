@@ -2,21 +2,30 @@
 			</div>
 		</div>
 	</div>
-<input type="hidden" value="${uid }">
+<input type="hidden" id="uid" name="uid" value="${uid }" />
+<div style="height: 300px;"></div>
 </body>
 
 <style>
+#uploadUl{
+	list-style: none;
+}
+#nuploadUl{
+	list-style: none;
+}
 #uploadArea {
 	border-radius: 10px !important;
-	border-color: black !important;
+	border-color: silver !important;
 	border: 3px solid;
 	height:auto;
+	list-style: none;
 }
 #nuploadArea {
 	border-radius: 10px !important;
-	border-color: red !important;
+	border-color: silver !important;
 	border: 3px solid;
 	height:auto;
+	list-style: none;
 }
 
 

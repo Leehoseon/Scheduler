@@ -11,26 +11,19 @@
 			name="writer" id="writer" type="text" value="${view.writer }" readonly="readonly">
 	</div>
 	<div class="form-group">
-		<label for="editor">내용</label> <input class="form-control"
-			name="content" id="content" type="text" value="${view.content }"></input>
+		<label for="editor">내용</label> <textarea class="form-control"
+			name="content" id="content" rows="9" >${view.content }</textarea>
 	</div>
 	<input type="hidden" id="tno" name="tno" value="${view.tno }" />
-
-	<div class="form-group" style="text-align: center;">
-		<button id="modBtn" class="button special">수정</button>
-		<button id="removeBtn" class="btn btn-default">삭제</button>
-		<button name="listBtn" value="list" id="listBtn" class="button alt"
-			type="button">리스트</button>
-	</div>
+	
 </form>
-
-<div id="uploadArea">
 <label for="editor">기존파일</label>
+<div id="uploadArea">
 	<ul id="uploadUl">
 	</ul>
 </div>
-<div id="nuploadArea">
 <label for="editor">새로운파일</label>
+<div id="nuploadArea">
 	<ul id="nuploadUl">
 	</ul>
 </div>
@@ -38,7 +31,14 @@
 <button class="btn btn-default" type="button" id="resetBtn">파일
 	초기화</button>
 </div>
-<input type="hidden" id="uid" name="uid" value="${uid }" />
+<br>
+<div class="form-group" style="text-align: center;">
+	<button id="modBtn" class="button special">수정</button>
+	<button id="removeBtn" class="btn btn-default">삭제</button>
+	<button name="listBtn" value="list" id="listBtn" class="button alt"
+		type="button">리스트</button>
+</div>
+
 <script>
 $(document).ready(function(){
 	var formData = new FormData();

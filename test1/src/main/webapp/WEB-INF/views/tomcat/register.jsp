@@ -16,13 +16,12 @@
 	</div>
 	
 </form>
-
+<label for="editor">등록 파일</label>
 <div class="form-group" id="uploadArea">
 	<ul id="uploadUl">
 	</ul>
 </div>
-
-<input type="hidden" id="uid" name="uid" value="${uid }" />
+<br>
 <div class="form-group" style="text-align: center;">
 		<button class="button special" type="submit" id="regBtn">등록</button>
 		<button class="button alt" type="button" id="listBtn">목록</button>

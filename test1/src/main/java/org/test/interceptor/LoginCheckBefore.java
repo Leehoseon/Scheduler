@@ -29,8 +29,9 @@ public class LoginCheckBefore extends HandlerInterceptorAdapter {
 		
 		if(useCookie) {
 			/*System.out.println("current user use cookie...");*/
-			
-			request.getSession().setAttribute("userId", request.getSession().getAttribute("userId"));
+			String cookieValue = loginCookie.getValue();
+			System.out.println(cookieValue);
+			request.getSession().setAttribute("userId", cookieValue);
 			
 			return true;
 		}
