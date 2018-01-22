@@ -3,7 +3,7 @@ package org.test.dto;
 import java.sql.Date;
 
 public class ReplyDTO {
-	private int rno,tno;
+	private int rno,tno,max,min;
 	private String uid,content,regdate,upddate,deldate;
 	public int getRno() {
 		return rno;
@@ -16,6 +16,18 @@ public class ReplyDTO {
 	}
 	public void setTno(int tno) {
 		this.tno = tno;
+	}
+	public int getMax() {
+		return max;
+	}
+	public void setMax(int max) {
+		this.max = max;
+	}
+	public int getMin() {
+		return min;
+	}
+	public void setMin(int min) {
+		this.min = min;
 	}
 	public String getUid() {
 		return uid;
@@ -49,9 +61,10 @@ public class ReplyDTO {
 	}
 	@Override
 	public String toString() {
-		return "ReplyDTO [rno=" + rno + ", tno=" + tno + ", uid=" + uid + ", content=" + content + ", regdate="
-				+ regdate + ", upddate=" + upddate + ", deldate=" + deldate + "]";
+		return "ReplyDTO [rno=" + rno + ", tno=" + tno + ", max=" + max + ", min=" + min + ", uid=" + uid + ", content="
+				+ content + ", regdate=" + regdate + ", upddate=" + upddate + ", deldate=" + deldate + "]";
 	}
+	
 	
 	
 }

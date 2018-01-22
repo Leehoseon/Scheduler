@@ -12,8 +12,8 @@ public interface ReplyMapper {
 	@Insert("insert into tbl_reply (content,uid,tno) values(#{content},#{uid},#{tno})")
 	public void replyRegister(ReplyDTO dto);
 	
-	@Select("select * from tbl_reply where tno = #{tno} order by rno desc offset 0 rows fetch next 10 rows only")
-	public List<ReplyDTO> getReply(int tno);
+	@Select("select * from tbl_reply where tno = #{tno} order by rno desc offset #{min} rows fetch next 10 rows only")
+	public List<ReplyDTO> getReply(ReplyDTO dto);
 	
 	@Delete("delete from tbl_reply where rno=#{rno}")
 	public void deleteReply(int rno);

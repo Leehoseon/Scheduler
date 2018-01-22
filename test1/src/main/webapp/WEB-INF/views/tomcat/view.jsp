@@ -35,7 +35,7 @@
 	</div>
 	<div id="replyList"></div>
 </div>
-
+<h2 id='more'>&#10010;</h2>
 <br>
 
 <div class="form-group" style="text-align: center;">
@@ -138,39 +138,19 @@
 		top: 0;
 		background-color: silver;
 	}
+	
+	#more{
+		text-align: center;
+	}
 </style>
 
 <script>
 	$(document).ready(function() {
 		
-		var page = getQuerystring("page");
+		var max = 0;
+		var min = 0;
 		
-		/* function hideNotMatchUid() {
-			
-			var target;
-			var div;
-			
-			var test2 = $("#replyTopDiv0:first-child").val();
-			
-			console.log(test2);
-			
-			
-			for (var i = 0; i < 10; i++) {
-				
-				div = "replyTopDiv" + i;
-				
-				console.log(div);
-				
-				target = $("#"+div).children().first();
-				
-				console.log(target);
-			}
-			
-			var test = $("#replyTopDiv1:first-child").val();
-			
-			console.log(test);
-			
-		}; */
+		var page = getQuerystring("page");
 		
 		function changeLogin() {
 			
@@ -303,10 +283,17 @@
 			var uid = $("#uid").val();
 			console.log(uid);
 			
+			min +1;
+			max += 10;	
+			
+			console.log(min);
+			console.log(max);
+			
 			$.ajax({
-				url : "/reply/getrlist/" + tno + "",
-				method : 'get',
+				url : "/reply/getrlist",
+				method : 'post',
 				dataType : 'json',
+				data : {tno:tno, uid:uid, max:max, min:min},
 				success : function(arr) {
 					
 					for (var i = 0; i < arr.length; i++) {
@@ -329,16 +316,19 @@
 						str += "</div>";
 						
 						console.log(str);
-						
 						$("#replyList").append(str);
 						
 					}
+					
 					str="";
+					min += 10;
 				}
 			});
 		}getRlist();
 		
 		$("#replyRegBtn").on("click", function (e) {
+			
+			e.preventDefault();
 			
 			var content = $("#replyContent").val();
 			
@@ -346,23 +336,29 @@
 			
 			var uid = $("#uid").val();
 			
-			console.log(writer);
+			var con_test = confirm("댓글을 등록하시겠습니까?");
 			
-			$.ajax({
-		    	url: "/reply/register",
-		        method: 'post',
-		        data: {content:content,uid:uid,tno:tno},
-		        dataType: 'text',
-		        success: function(text) {
-		        	
-					var link = document.location.href;
-					
-					alert("댓글등록!")
-					
-					self.location=""+link;
-		        	
-				}
-			});
+			if(con_test == true){
+
+				$.ajax({
+			    	url: "/reply/register",
+			        method: 'post',
+			        data: {content:content,uid:uid,tno:tno},
+			        dataType: 'text',
+			        success: function(text) {
+			        	
+						var link = document.location.href;
+						
+						self.location=""+link;
+			        	
+					}
+				});
+				
+				getRlist();
+			}
+			else if(con_test == false){
+			  
+			}
 			
 		});
 		
@@ -379,16 +375,16 @@
 			var rno = $(this).attr("id");
 			
 			console.log(rno);
+			
 			var contentRno ="content"+ rno;
 			
 			var cls = $(this).attr("class");
 			
-			$(this).remove();
-			
-			var text = $("#"+contentRno).text();
-			
-			
 			if(cls ==="modifyDiv"){
+				
+				$(this).remove();
+				
+				var text = $("#"+contentRno).text();
 				
 				console.log(cls);
 				var str = "<textarea rows='1' id='"+rno+"' class='contentChangeDiv'>"+text+"</textarea><i id='replyModBtn' class='"+rno+"'>&#10004</i>"
@@ -400,21 +396,25 @@
 				
 				
 			}else{
-				$.ajax({
-					url : "/reply/delete/" + rno + "",
-			        method: 'get',
-			        dataType: 'json',
-			        success: function(data) {
-			        	
-					}
-				});
-				var link = document.location.href;
 				
-				alert("댓글삭제완료!")
-				
-				self.location=""+link;
+				var con_test = confirm("댓글을 삭제 하시겠습니까?");
+				if(con_test == true){
+					$.ajax({
+						url : "/reply/delete/" + rno + "",
+				        method: 'get',
+				        dataType: 'json',
+				        success: function(data) {
+				        	
+						}
+					});
+					var link = document.location.href;
+					
+					self.location=""+link;
+				}
+				else if(con_test == false){
+				  
+				}
 			}
-			
 		});
 		
 		$("#replyArea").on("click","i", function (e) {
@@ -443,6 +443,15 @@
 			
 			self.location=""+link;
 		});
+		
+		$("#more").on("click", function (e) {
+			
+			getRlist();
+			console.log("asdasd");
+			
+		});
+		
+		
 });
 
 

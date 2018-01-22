@@ -21,8 +21,8 @@ public class ReplyServiceImpl implements ReplyService {
 	}
 
 	@Override
-	public List<ReplyDTO> getReply(int tno) {
-		return mapper.getReply(tno);
+	public List<ReplyDTO> getReply(ReplyDTO dto) {
+		return mapper.getReply(dto);
 	}
 
 	@Override

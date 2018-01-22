@@ -29,11 +29,14 @@ public class ReplyController {
 		return "yes";
 	}
 	
-	@GetMapping("getrlist/{tno}")
-	public List<ReplyDTO> getReplyList(@PathVariable int tno) {
+	@PostMapping("getrlist")
+	public List<ReplyDTO> getReplyList(ReplyDTO dto) {
+		
 		List<ReplyDTO> tdto ;
 		
-		tdto = service.getReply(tno);
+		System.out.println(dto);
+		
+		tdto = service.getReply(dto);
 		
 		for (int i = 0; i < tdto.size(); i++) {
 			
@@ -49,8 +52,6 @@ public class ReplyController {
 		}
 		
 		System.out.println(tdto);
-		
-		System.out.println(tno);
 		
 		return tdto;
 		

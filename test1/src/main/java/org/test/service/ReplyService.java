@@ -8,7 +8,7 @@ public interface ReplyService {
 	
 	public void replyRegister(ReplyDTO dto);
 	
-	public List<ReplyDTO> getReply(int tno);
+	public List<ReplyDTO> getReply(ReplyDTO dto);
 	
 	public void deleteReply(int rno);
 	
