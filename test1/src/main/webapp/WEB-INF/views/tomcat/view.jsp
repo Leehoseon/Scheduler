@@ -117,6 +117,12 @@
 		width:5% !important; */
 		
 	} 
+	.spaceDiv{
+		float: left;
+		min-height: 2em !important;
+		margin-top: 2em;
+		width:5% !important;
+	}
 
 	.plusImg {
 		max-width: 100%;
@@ -315,7 +321,7 @@
 						if(uid === arr[i].uid){
 							str += "<p id='"+arr[i].rno+"' class='closeDiv'>&#10006;</p>";						
 						}else if (uid !== arr[i].uid){
-							str += "<p></p>"
+							str += "<p class='spaceDiv'>&#160;&#160;</p>"
 						}
 						
 						str += "</div>";
