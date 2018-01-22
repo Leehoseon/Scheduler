@@ -75,10 +75,12 @@
 	}
 	
 	.uidDiv{
+		margin-top: 2em;
 		margin-left: 5%;
 		width:10% !important;
 	}
 	.contentDiv{
+		margin-top: 2em;
 		float :left;
 		margin-left: 5%;
 		width:50% !important;
@@ -98,6 +100,7 @@
 		text-align: center;
 	}
 	.regdateDiv{
+		margin-top: 2em;
 		width:20% !important;
 	}
 	.closeDiv{
@@ -116,16 +119,16 @@
 	} 
 
 	.plusImg {
-	max-width: 100%;
-	max-height: 100%;
-	bottom: 0;
-	left: 0;
-	margin: auto;
-	overflow: auto;
-	position: fixed;
-	right: 0;
-	top: 0;
-	background-color: silver;
+		max-width: 100%;
+		max-height: 100%;
+		bottom: 0;
+		left: 0;
+		margin: auto;
+		overflow: auto;
+		position: fixed;
+		right: 0;
+		top: 0;
+		background-color: silver;
 	}
 </style>
 
@@ -133,6 +136,33 @@
 	$(document).ready(function() {
 		
 		var page = getQuerystring("page");
+		
+		/* function hideNotMatchUid() {
+			
+			var target;
+			var div;
+			
+			var test2 = $("#replyTopDiv0:first-child").val();
+			
+			console.log(test2);
+			
+			
+			for (var i = 0; i < 10; i++) {
+				
+				div = "replyTopDiv" + i;
+				
+				console.log(div);
+				
+				target = $("#"+div).children().first();
+				
+				console.log(target);
+			}
+			
+			var test = $("#replyTopDiv1:first-child").val();
+			
+			console.log(test);
+			
+		}; */
 		
 		function changeLogin() {
 			
@@ -187,11 +217,10 @@
 
 			});
 			
-			hideModBtn();
 		}
 		getFlist();
 		
-		function hideModBtn() {
+		/* function hideModBtn() {
 			
 			var writer = $(".uidDiv").text();
 			var uid = $("#uid").val();
@@ -204,7 +233,7 @@
 			}else{
 				return true;
 			}
-		};
+		}; */
 		
 		$("#uploadUl").on("click","img", function () {
 			
@@ -263,23 +292,35 @@
 		function getRlist() {
 			var str=""; 
 			var tno = $("#tno").val(); 
-			
-			var test = hideModBtn();
-			
-			console.log(test);
+			var uid = $("#uid").val();
+			console.log(uid);
 			
 			$.ajax({
 				url : "/reply/getrlist/" + tno + "",
 				method : 'get',
 				dataType : 'json',
-				/* async: false, */
 				success : function(arr) {
+					
 					for (var i = 0; i < arr.length; i++) {
 						
-						str = "<div id='replyTopDiv'><div id='"+arr[i].uid+arr[i].rno+"' class='uidDiv'>"+arr[i].uid+"</div>"
-						+"<div id='content"+arr[i].rno+"' class='contentDiv'>"+arr[i].content+"<p id='"+arr[i].rno+"' class='modifyDiv'>&#9997;</p></div>"
+						str = "<div id='replyTopDiv'><div id='"+arr[i].uid+arr[i].rno+"' class='uidDiv' value='"+ arr[i].uid +"'>"+arr[i].uid+"</div>"
+						+"<div id='content"+arr[i].rno+"' class='contentDiv'>"+arr[i].content 
 						
-						+"<div class='regdateDiv'>"+arr[i].regdate+"</div><p id='"+arr[i].rno+"' class='closeDiv'>&#10006;</p></div>";
+						if(uid === arr[i].uid){
+							str += "<p id='"+arr[i].rno+"' class='modifyDiv'>&#9997;</p>"						
+						}
+						
+						str += "</div><div class='regdateDiv'>"+arr[i].regdate+"</div>";
+						
+						if(uid === arr[i].uid){
+							str += "<p id='"+arr[i].rno+"' class='closeDiv'>&#10006;</p>";						
+						}else if (uid !== arr[i].uid){
+							str += "<p></p>"
+						}
+						
+						str += "</div>";
+						
+						console.log(str);
 						
 						$("#replyList").append(str);
 						
