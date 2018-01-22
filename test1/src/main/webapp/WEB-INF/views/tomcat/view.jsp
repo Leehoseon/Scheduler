@@ -122,6 +122,7 @@
 		min-height: 2em !important;
 		margin-top: 2em;
 		width:5% !important;
+		margin-bottom: 3.4%;
 	}
 
 	.plusImg {
@@ -321,7 +322,7 @@
 						if(uid === arr[i].uid){
 							str += "<p id='"+arr[i].rno+"' class='closeDiv'>&#10006;</p>";						
 						}else if (uid !== arr[i].uid){
-							str += "<p class='spaceDiv'>&#160;&#160;</p>"
+							str += "<div class='spaceDiv'>&nbsp;&nbsp;&nbsp;&nbsp;</div>"
 						}
 						
 						str += "</div>";
