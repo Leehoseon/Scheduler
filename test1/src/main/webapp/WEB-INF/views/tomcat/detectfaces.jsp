@@ -19,6 +19,7 @@
 
 <div class="form-group" id="uploadArea">
 	<ul id="uploadUl">
+		<li>분석할 사진을 올려주세요</li>
 	</ul>
 </div>
 
@@ -80,6 +81,8 @@ $(document).ready(function(){
 		
 		var length = files.length;
 		
+		$("#uploadUl").html("");
+		
 		for(i=0; i<length; i++){
 			
 			formData.append("file",files[i]);
@@ -132,46 +135,27 @@ $(document).ready(function(){
 			/* alert("제목을입력하세요!"); */
 			
 		} else{
-			var test = [];
+			
 			$.ajax({
 		    	url: "/detectfaces/regfaces",
 		        method: 'post',
 		        data: formData,
-		        dataType: 'text',
+		        dataType: 'json',
 		        processData: false,
 		        contentType: false,
 		        success: function(data) {
-		        	   /* for(var i=0; i >= arr.length; i++){
-		        		str += arr[i];
-		        		console.log(str);
-			        	$("#content").html(str); 
-		        	}    */
-		        	/* console.log(arr.toString());
-		        	for (var eachItem in arr) {
-		        		test.push(eachItem);
-		        		console.log(test);
-		        	} */
-		        	
-		        	str +="<li>인식결과:"+ data +"</li><br>";
-		        	/* alert(str); */
+		        	console.log(data);
+		        	console.log(data.ageLow);
+	        		str +="<li>인식결과:</li><br>";
+	        		str +="<li>나이대:"+ data.ageLow+"~"+data.ageHigh +"</li><br>";
+	        		str +="<li>웃음여부:"+ data.smile +"</li><br>";
+	        		str +="<li>성별:"+ data.gender +"</li><br>";
 		        	addFname = "<img id='' src='/detectfaces/getThumb/DETECT0__THUM'></img>";
-		        	console.log(str);
 		        	$("#uploadUl").append(addFname);
 		        	$("#uploadUl").append(str);
-		        	
-/* 		        	for(key in arr){
-
-		        		alert("obj[" + name + "]" + arr[name]);
-
-		        	} */
-		        	
-		        	/* 
-					str += arr;
-		        	console.log(str); */
 		        }
 			
 			});
-			
 		
 			function myFunction() {
 			    myVar = setTimeout(alertFunc, 1000);
